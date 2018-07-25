@@ -1,193 +1,221 @@
 *{
-    box-sizing: border-box;
-    margin: 0 auto;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
 }
 .conatiner{
-    width: 100%;
+  width: 100%;
 }
 body, html { width: 100%; height: 100%; }
 
 .header{
-    background-color: #b7941d;
-    height: 150px;
-    padding-top: 20px;
-    padding-bottom: 10px;
+  background-color: #b7941d;
+  height: 150px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 .imgLogo{
-    /*border: 5px solid white;*/
-    border-radius: 100px;
-    width: 100%;
-    height: 100%;
+  /*border: 5px solid white;*/
+  border-radius: 100px;
+  width: 100%;
+  height: 100%;
 }
 .blackBar{
-    width: 100%;
-    height: 28px;
-    background-color: black;
-    position: absolute;
-    color: white;
-    text-align: right;
+  width: 100%;
+  height: 28px;
+  background-color: black;
+  position: absolute;
+  color: white;
+  text-align: right;
 }
 .userName{
-    font-size: 12px;
-    padding-right: 7px;
+  font-size: 12px;
+  padding-right: 7px;
 }
 .noStyle{
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
-.nav{  
-    display: flex;
+.nav{
+  display: flex;
 }
 .child{
-    flex: 1;
+  flex: 1;
 }
 .one{
-    flex: 1;
+  flex: 1;
 }
 h1{
-    text-align: center;
-    margin-top: 40px;
-    color: white;
-    font-size:45px;
+  text-align: center;
+  margin-top: 40px;
+  color: white;
+  font-size:45px;
 }
 .circle{
-    width: 100px;
-    height: 100px;
-    margin-top: 18px
+  width: 100px;
+  height: 100px;
+  margin-top: 18px
 }
-.body{  
-    width: 100%;
-    background-color: #EDEEEF;
-    height:550px;
+.body{
+  width: 100%;
+  background-color: #EDEEEF;
+  height:550px;
 }
 .formcontainer{
-    width: 50%;
-    margin:auto;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    height: 300px;
-    
+  width: 50%;
+  margin:auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+
 }
 .inside{
-    flex: 1;
+  flex: 1;
 }
 #form{
-    flex: 3;
-    width: 100%;
+  flex: 3;
+  width: 100%;
 }
 .inside h3{
-    margin-top: 30px;
-    margin-bottom: 20px;
-    color: black;
-    font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: black;
+  font-size: 30px;
 }
 
 .formcontrols{
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .input{
-    width: 70%;
-    margin: auto;
-    margin-top: 20px;    
-    flex: 1;
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+  flex: 1;
 }
 
-#emailtxt,#passwordtxt ,#signInBtn{
-    width: 100%;
-    height: 40px;
-    margin: auto;
-    border-radius: 5px;
-    padding-left: 10px;
-    font-size: 20px;
-    border: 2px solid black;
+#username,#password ,#signInBtn{
+  width: 100%;
+  height: 40px;
+  margin: auto;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 20px;
+  border: 2px solid black;
 }
 #signInBtn{
-    background-color: black;
-    color: white;
-    cursor: pointer;
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1000px) {
-       h1{
-        font-size:4vw;
-    }  
+  h1{
+    font-size:4vw;
+  }
 }
 
 @media only screen and (max-width: 900px) {
-    .header{
-        height: 270px;
-    }
-    .nav{
-        flex-direction: column;
-    }
-    h1{
-        font-size: 6vw;
-         margin-top: 20px;
-    }
-    .circle{
-        margin-top: 30px;
-    }
-    .formcontainer{
-        width: 85%;
-    }
-    .body{
-        height: 400px;
-    }
-    .inside h3{
-        margin-top: 30px;
-        margin-bottom: 15px;
-        color: black;
-        font-size: 40px;
-    }
-    .input{
-        width: 80%;
-        margin: auto;
-        margin-top: 20px;    
-        flex: 1;
-    }
+  .header{
+    height: 270px;
+  }
+  .nav{
+    flex-direction: column;
+  }
+  h1{
+    font-size: 6vw;
+    margin-top: 20px;
+  }
+  .circle{
+    margin-top: 30px;
+  }
+  .formcontainer{
+    width: 85%;
+  }
+  .body{
+    height: 400px;
+  }
+  .inside h3{
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: black;
+    font-size: 40px;
+  }
+  .input{
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    flex: 1;
+  }
 }
 
 
 @media only screen and (max-width: 600px) {
-    .header{
-        height: 270px;
-    }
-    .nav{
-        flex-direction: column;
-    }
-    h1{
-        font-size: 10vw;
-         margin-top: 20px;
-    }
-    .circle{
-        margin-top: 30px;
-    }
-    .formcontainer{
-        width: 100%;
-    }
-    .inside h3{
-        margin-top: 30px;
-        color: black;
-        font-size: 40px;
-    }
-    .input{
-        width: 80%;
-        margin: auto;
-        margin-top: 20px;    
-        flex: 1;
-    }
-    #emailtxt,#passwordtxt{
-        font-size: 15px;
-    }
-    #signInBtn{
-        font-size: 20px;
-    }
-    .body{
-        height: 400px;
-    }
+  .header{
+    height: 270px;
+  }
+  .nav{
+    flex-direction: column;
+  }
+  h1{
+    font-size: 10vw;
+    margin-top: 20px;
+  }
+  .circle{
+    margin-top: 30px;
+  }
+  .formcontainer{
+    width: 100%;
+  }
+  .inside h3{
+    margin-top: 30px;
+    color: black;
+    font-size: 40px;
+  }
+  .input{
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    flex: 1;
+  }
+  #emailtxt,#passwordtxt{
+    font-size: 15px;
+  }
+  #signInBtn{
+    font-size: 20px;
+  }
+  .body{
+    height: 400px;
+  }
+}
+
+.loader {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.loaderBackground{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 1;
+  visibility: hidden;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

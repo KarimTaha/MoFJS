@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/home.css';
 import {askagree , hideWindow} from '../js/home.js';
+import {withRouter} from 'react-router-dom';
 import Row from './Row.js';
 import axios from 'axios';
 
@@ -8,7 +9,7 @@ var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
 var appName = 'MOF_BT';
 var ruleName = 'NFT-Transfers Karim';
 
-export default class Transfers extends Component{
+class Transfers extends Component{
 
   constructor(props){
     super(props);
@@ -20,15 +21,17 @@ export default class Transfers extends Component{
   componentDidMount(){
     axios.get(baseUrl + 'applications/' + appName + '/dataexport/' + ruleName,
     {
-      headers: { 'Authorization': 'Basic a2FyaW0udGFoYTpoeXBwbGFuMTIz' }
+      headers: { 'Authorization': 'Basic '+localStorage.getItem('auth') }
     }).then((response) => {
       this.setState({data:response.data});
     });
   }
 
   render(){
+    if(!localStorage.getItem('loggedIn')){
+      this.props.history.push('/login');
+    }
     let data = this.state.data;
-
     if (data.rows){
 
       return(
@@ -90,3 +93,5 @@ else {
 }
 
 }
+
+export default withRouter(Transfers);
