@@ -33,60 +33,60 @@ export default class Transfers extends Component{
 
       return(
         <div>
-        <div className="transferdiv">
-          <div className="transfernumberdiv">
-            <h3><label id="transferlbl">Transfers in stage 7 - Assistant Undersecretary</label></h3>
+          <div className="transferdiv">
+            <div className="transfernumberdiv">
+              <h3><label id="transferlbl">Transfers in stage 7 - Assistant Undersecretary</label></h3>
+            </div>
           </div>
-        </div>
 
-        <div className="body">
-          <div className="divtable">
-            <table id="t01">
-            <thead>
-                <tr>
-                <th>Transfer Number</th>
-                <th>Request Date</th> 
-                <th>Entity</th>
-                <th>Amount</th>
-                <th>Comments</th>
-                <th></th>
-                <th>Approve</th>
-                <th>Reject</th>
-                <th>No Action</th>
-                </tr>
+          <div className="body">
+            <div className="divtable">
+              <table id="t01">
+                <thead>
+                  <tr>
+                    <th>Transfer Number</th>
+                    <th>Request Date</th>
+                    <th>Entity</th>
+                    <th>Amount</th>
+                    <th>Comments</th>
+                    <th></th>
+                    <th>Approve</th>
+                    <th>Reject</th>
+                    <th>No Action</th>
+                  </tr>
                 </thead>
                 <tbody>
-                {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i}></Row>) : <p>No Data</p>}
+                  {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i}></Row>) : <p>No Data</p>}
                 </tbody>
-            </table>
+              </table>
+            </div>
+            <input type="button" className="submitBtn" name="submit" value="Submit" onClick={askagree}/>
           </div>
-          <input type="button" className="submitBtn" name="submit" value="Submit" onClick={askagree}/>
-        </div>
 
-        <div className="popup" id="dialog" style={{visibility: 'hidden'}}>
-          <div className="rowcontainer">
-            <div className="row">
-              <p id="dialogText"></p>
-            </div>
-            <div className="row">
-            <div className="checkcontainer">
-              <div className="checkbtn"><button onClick={hideWindow} className="yesbtn">Yes</button>
-            </div>
-            <div className="checkbtn"><button onClick={hideWindow} className="nobtn">No</button>
+          <div className="popup" id="dialog" style={{visibility: 'hidden'}}>
+            <div className="rowcontainer">
+              <div className="row">
+                <p id="dialogText"></p>
+              </div>
+              <div className="row">
+                <div className="checkcontainer">
+                  <div className="checkbtn"><button onClick={hideWindow} className="yesbtn">Yes</button>
+                </div>
+                <div className="checkbtn"><button onClick={hideWindow} className="nobtn">No</button>
               </div>
             </div>
           </div>
         </div>
 
-        </div>
-        </div>
-        
-        );
+      </div>
+    </div>
 
-    }
-    else {
-      return("");
-    }
-  }
+  );
+
+}
+else {
+  return("");
+}
+}
 
 }

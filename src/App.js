@@ -14,12 +14,11 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Header/>
-            <Route path="/TransferDetails" component={TransferDetails} />
+          <Route path="/TransferDetails" component={TransferDetails} />
           <Route exact path="/" component={Transfers} />
-          <input type="button" name="submit" value="TestFetch" onClick={testFetch}/>
         </div>
       </BrowserRouter>
-      )
+    )
   }
 
 
@@ -57,11 +56,4 @@ function Header(){
   );
 }
 
-function testFetch(){
-  var data = new FormData();
-  data.append("data" , "Test please work");
-  var xhr = new XMLHttpRequest();
-  xhr.open( 'post', 'test.php', true );
-  xhr.send(data);
-}
 export default App;
