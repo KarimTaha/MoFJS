@@ -25,7 +25,7 @@ class TransferDetails extends React.Component{
 
 	componentDidMount(){
 		if(localStorage.getItem('loggedIn') && this.state!=null){
-			var body = `mdxQuery=
+			var query = `mdxQuery=
 			SELECT
 			{[Selection Account],[Selection Location],[Selection Activity ${this.state.entity}],[Source],[Destination]}
 			ON COLUMNS, Non Empty
@@ -36,15 +36,32 @@ class TransferDetails extends React.Component{
 			([Period].[Annual Value],[FY17],[Fund Transfer],[Stage 1 - Working],[Department NSP],[${this.state.entity}],
 				[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`;
 
-				axios({
-					method: 'post',
-					url: baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/',
-					headers: {'Authorization': 'Basic '+localStorage.getItem('auth')},
-					data: body
-				}).then((response) => {
-					this.setState({data:response.data});
+				// axios({
+				// 	method: 'post',
+				// 	url: baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/',
+				// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')},
+				// 	data: body
+				// })
+				axios.get('http://127.0.0.1:5000/getDetails',
+		    {
+		      headers: {'auth': localStorage.getItem('auth'),
+		      'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
+					'entity': this.state.entity,
+					'transfer': this.state.transfer,
+					'segment': this.state.segment
+				}
+		    }).then((response) => {
+		      this.setState({data:response.data});
 					console.log(response);
-				});
+		    })
+				// axios.post('http://127.0.0.1:5000/getDetails',
+		    // {
+		    //   headers: {'auth': localStorage.getItem('auth'),
+		    //   'url': baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/'}
+		    // }).then((response) => {
+		    //   // this.setState({data:response.data});
+				// 	console.log("response");
+		    // })
 			}
 		}
 
@@ -76,7 +93,7 @@ class TransferDetails extends React.Component{
 								<div className="divtable">
 									<table id="t01">
 										<thead>
-											<tr>
+											<tr id="header">
 												<th>Line Item</th>
 												<th>Account</th>
 												<th>Location</th>

@@ -1,0 +1,453 @@
+/* General */
+*{
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-family: "Times New Roman", Times, serif;
+}
+html{
+  overflow-y: scroll;
+}
+.conatiner{
+  width: 100%;
+}
+body, html {
+  width: 100%; height: 100%;
+  background: url("/img/background2.jpg");
+ }
+
+/* Header */
+.blackBar{
+  width: 100%;
+  height: 28px;
+  background-color: black;
+  position: absolute;
+  color: white;
+  padding-right: 1%;
+}
+.userName{
+  font-size: 12px;
+  padding-right: 7px;
+  color: white;
+}
+.header{
+  height: 150px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  background-color: white;
+}
+.imgLogo{
+  height: 80px;
+  margin-top: 6%;
+  margin-left: 10%;
+}
+.zayedLogo{
+  height: 100px;
+  margin-right: 20%;
+  margin-top: 5%;
+}
+.nav{
+  display: flex;
+}
+.child{
+  flex: 1;
+}
+.one{
+  flex: 1;
+  width: 20%;
+}
+span {
+  color: black;
+}
+.three{
+  width: 50px;
+  margin: auto;
+  align-self: center;
+  text-align: right;
+}
+.glyphicon-log-out{
+  font-size: 13px;
+  color: white;
+}
+.left{
+  float: left;
+  width: 50%;
+  font-size: 12px;
+  padding: 5px;
+}
+.noStyle{
+  text-decoration: none;
+  color: white;
+}
+h1{
+  text-align: center;
+  margin-top: 40px;
+  font-size:45px;
+}
+
+/* Body */
+
+.transferdiv{
+  height: 50px;
+  text-align: right;
+  margin-bottom: 5%;
+  background-color: #b7941d;
+  color: white;
+  padding-top: 10px;
+  padding-right: 4%;
+}
+#transferlbl{
+  font-size: 25px;
+}
+.divtable{
+  width: 95%;
+}
+.bold{
+  font-weight: bold;
+}
+table {
+  /*margin-left:10px;*/
+  width:95%;
+}
+table, th, td {
+  border: 1px solid #D6D6D6;
+  border-collapse: collapse;
+  color:  #636363;
+}
+th, td {
+  padding left: 6px;
+  padding-right: 6px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  text-align: center;
+  color:  #636363;
+  min-width: 60px;
+}
+
+table#t01 th {
+  color: white;
+}
+.body{
+  width: 100%;
+  margin: auto;
+}
+tr.d0 td {
+  background-color: #CC9999;
+  color: black;
+}
+tr:nth-child(even){
+  background: #ecd9c6
+}
+tr:nth-child(odd){
+  background: #FFF
+}
+tr#header {
+  background: #b7941d;
+}
+.nocolor{
+  background-color:white;
+}
+@media only screen and (max-width: 1150px) {
+  .dropbtn{
+    font-size:15px;;
+  }
+  h1{
+    font-size: 35px;
+  }
+  .divtable{
+    width: 95%;
+  }
+}
+@media only screen and (max-width: 850px) {
+  .dropbtn{
+    font-size:13px;;
+  }
+  h1{
+    font-size: 30px;
+  }
+  .divtable{
+    width: 95%;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .nav{
+    flex-direction: column;
+  }
+  .header{
+    height: 300px;
+  }
+  .circle{
+    margin-top: 20px;
+  }
+  h1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .divtable{
+    width: 95%;
+  }
+  tr,th,td{
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  tr,th,td{
+    font-size: 10px;
+  }
+}
+
+
+.popup {
+
+  width: 50%;
+  height: 130px;
+  margin:15%;
+  padding: 15px;
+  left: 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  box-shadow: 5px 5px 5px #000;
+  z-index: 10001;
+}
+
+.rowcontainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.row{
+  flex: 1;
+  padding: 10px;
+}
+.checkcontainer{
+  display: flex;
+  flex-direction: row;
+}
+#dialogText{
+  font-size: 25px;
+}
+.checkbtn{
+  flex: 1;
+  margin-left: 20px
+}
+
+.yesbtn,.nobtn{
+  height: 40px;
+  width: 60px;
+  font-size: 18px;
+}
+.yesbtn{
+  background-color: #47d147;
+  border-radius: 10px;
+  border: 0px;
+  color: white;
+}
+
+.nobtn{
+  background-color: #ff0000;
+  border-radius: 10px;
+  border: 0px;
+  color: white;
+}
+
+.submitBtn{
+  float: left;
+  margin-left: 5%;
+  margin-top: 4%;
+  margin-bottom: 2%;
+  width: 10%;
+  background-color: #b7941d;
+  color: white;
+  border: 0px;
+  border-radius: 5px;
+  height: 40px;
+  box-shadow: 0px 0px 1px 1px #757575;
+}
+.title{
+  width: 50%;
+  float: right;
+}
+.backLabel{
+  text-align: left;
+  margin-left: 5%;
+  width: 40%;
+  color: white;
+}
+.glyphicon-arrow-left{
+  color: white;
+}
+
+/* Login */
+.formBody{
+    width: 100%;
+    background-color: #EDEEEF;
+}
+input.rightInput{
+  text-align: right;
+  padding: 10px;
+}
+.formcontainer{
+    width: 50%;
+    margin:auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+
+}
+.inside{
+    flex: 1;
+}
+#form{
+    flex: 3;
+    width: 100%;
+}
+.inside h3{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: black;
+    font-size: 30px;
+}
+
+.formcontrols{
+    display: flex;
+    flex-direction: column;
+}
+
+.input{
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+    flex: 1;
+}
+.transferdiv.transferdiv-login{
+  margin-bottom: 0px;
+}
+
+#username,#password ,#signInBtn{
+    width: 100%;
+    height: 40px;
+    margin: auto;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 20px;
+    border: 2px solid black;
+}
+#signInBtn{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1000px) {
+       h1{
+        font-size:4vw;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .header{
+        height: 270px;
+    }
+    .nav{
+        flex-direction: column;
+    }
+    h1{
+        font-size: 6vw;
+         margin-top: 20px;
+    }
+    .circle{
+        margin-top: 30px;
+    }
+    .formcontainer{
+        width: 85%;
+    }
+    .body{
+        height: 400px;
+    }
+    .inside h3{
+        margin-top: 30px;
+        margin-bottom: 15px;
+        color: black;
+        font-size: 40px;
+    }
+    .input{
+        width: 80%;
+        margin: auto;
+        margin-top: 20px;
+        flex: 1;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .header{
+        height: 270px;
+    }
+    .nav{
+        flex-direction: column;
+    }
+    h1{
+        font-size: 10vw;
+         margin-top: 20px;
+    }
+    .circle{
+        margin-top: 30px;
+    }
+    .formcontainer{
+        width: 100%;
+    }
+    .inside h3{
+        margin-top: 30px;
+        color: black;
+        font-size: 40px;
+    }
+    .input{
+        width: 80%;
+        margin: auto;
+        margin-top: 20px;
+        flex: 1;
+    }
+    #emailtxt,#passwordtxt{
+        font-size: 15px;
+    }
+    #signInBtn{
+        font-size: 20px;
+    }
+    .body{
+        height: 400px;
+    }
+}
+
+.loader {
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.loaderBackground{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+  visibility: hidden;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

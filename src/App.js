@@ -5,7 +5,6 @@ import Transfers from './Components/Transfers';
 import TransferDetails from './Components/TransferDetails';
 import Login from './Components/Login'
 
-import './css/home.css';
 import './App.css';
 
 class App extends Component {

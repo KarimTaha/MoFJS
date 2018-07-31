@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link , Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
-import '../css/login.css'
+import '../css/app.css'
 
 var props;
 class Login extends React.Component{
@@ -19,7 +19,7 @@ class Login extends React.Component{
 
   render(){
     var loggedIn = localStorage.getItem('loggedIn');
-    console.log(loggedIn);
+    // console.log(loggedIn);
 
     return(
       <div className="container">
@@ -33,20 +33,18 @@ class Login extends React.Component{
 
           <div className="header">
             <nav className="nav">
-
-
               <div className="child one">
                 <div className="circle">
-                  <img src="img/mof uae.jpg" alt="logo" className="imgLogo"/>
+                  <img src="img/mof-logo-official.png" alt="logo" className="imgLogo"/>
                 </div>
               </div>
 
               <div className="child two">
-                <h1>Budget Transfers</h1>
+                <h1>نظام المناقلات المالية</h1>
               </div>
 
               <div className="child three">
-
+                <img src="img/Zayed.jpg" alt="logo" className="zayedLogo"/>
               </div>
             </nav>
           </div>
