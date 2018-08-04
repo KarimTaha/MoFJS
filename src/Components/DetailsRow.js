@@ -19,8 +19,8 @@ function DetailsRow(props){
           <tr>
 						<td>{header}</td>
 						<td>{row.data[0]}</td>
-            <td>{row.data[1]}</td>
             <td>{row.data[2]}</td>
+            <td>{row.data[1]}</td>
             <td>{row.data[3]}</td>
             <td>{row.data[4]}</td>
           </tr>

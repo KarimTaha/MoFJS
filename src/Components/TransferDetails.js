@@ -25,100 +25,137 @@ class TransferDetails extends React.Component{
 
 	componentDidMount(){
 		if(localStorage.getItem('loggedIn') && this.state!=null){
-			var query = `mdxQuery=
-			SELECT
-			{[Selection Account],[Selection Location],[Selection Activity ${this.state.entity}],[Source],[Destination]}
-			ON COLUMNS, Non Empty
-			{[All Line Items].Children}
-			ON ROWS
-			FROM MOF_BT.MOF_BT
-			WHERE
-			([Period].[Annual Value],[FY17],[Fund Transfer],[Stage 1 - Working],[Department NSP],[${this.state.entity}],
-				[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`;
+			// var query = `mdxQuery=
+			// SELECT
+			// {[Selection Account],[Selection Location],[Selection Activity ${this.state.entity}],[Source],[Destination]}
+			// ON COLUMNS, Non Empty
+			// {[All Line Items].Children}
+			// ON ROWS
+			// FROM MOF_BT.MOF_BT
+			// WHERE
+			// ([Period].[Annual Value],[FY17],[Fund Transfer],[Stage 1 - Working],[Department NSP],[${this.state.entity}],
+			// 	[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`;
 
-				// axios({
-				// 	method: 'post',
-				// 	url: baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/',
-				// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')},
-				// 	data: body
-				// })
-				axios.get('http://127.0.0.1:5000/getDetails',
-		    {
-		      headers: {'auth': localStorage.getItem('auth'),
-		      'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
-					'entity': this.state.entity,
-					'transfer': this.state.transfer,
-					'segment': this.state.segment
-				}
-		    }).then((response) => {
-		      this.setState({data:response.data});
-					console.log(response);
-		    })
-				// axios.post('http://127.0.0.1:5000/getDetails',
-		    // {
-		    //   headers: {'auth': localStorage.getItem('auth'),
-		    //   'url': baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/'}
-		    // }).then((response) => {
-		    //   // this.setState({data:response.data});
-				// 	console.log("response");
-		    // })
+			// axios({
+			// 	method: 'post',
+			// 	url: baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/',
+			// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')},
+			// 	data: body
+			// })
+			axios.get('http://127.0.0.1:5000/getDetails',
+			{
+				headers: {'auth': localStorage.getItem('auth'),
+				'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
+				'entity': this.state.entity,
+				'transfer': this.state.transfer,
+				'segment': this.state.segment
 			}
+		}).then((response) => {
+			this.setState({data:response.data});
+			console.log(response);
+		})
+		// axios.post('http://127.0.0.1:5000/getDetails',
+		// {
+		//   headers: {'auth': localStorage.getItem('auth'),
+		//   'url': baseUrl+'applications/'+appName+'/dataexport/plantypes/'+plan+'/'}
+		// }).then((response) => {
+		//   // this.setState({data:response.data});
+		// 	console.log("response");
+		// })
+	}
+}
+
+render(){
+	if(!localStorage.getItem('loggedIn')){
+		this.props.history.push('/login');
+		return("");
+	}
+	else{
+		if(this.state==null){
+			this.props.history.push('/');
+			return("");
 		}
-
-		render(){
-			if(!localStorage.getItem('loggedIn')){
-				this.props.history.push('/login');
-				return("");
-			}
-			else{
-				if(this.state==null){
-					this.props.history.push('/');
-					return("");
-				}
-				let data = this.state.data;
-				if(data.rows){
-					return(
-						<div>
-							<div className="transferdiv">
-								<div className="transfernumberdiv">
-									<Link to={{
-										pathname: '/',
-									}}>Back</Link>
-									<span className="separator"></span>
-									<label id="transferlbl"> Transfer identifier: {this.state.transfer},{this.state.segment}, {this.state.entity}</label>
-								</div>
-							</div>
-
-							<div>
-								<div className="divtable">
-									<table id="t01">
-										<thead>
-											<tr id="header">
-												<th>Line Item</th>
-												<th>Account</th>
-												<th>Location</th>
-												<th>Activity</th>
-												<th>Source</th>
-												<th>Destination</th>
-											</tr>
-										</thead>
-										<tbody>
-											{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					);
-				}
-				else{
-					return(
+		let data = this.state.data;
+		if(data.rows){
+			return(
+				<div>
+					{/* <div className="transferdiv">
+						<div className="transfernumberdiv">
 						<Link to={{
-							pathname: '/',
-						}}>Back</Link>);
-					}
-				}
-			}
-		}
+						pathname: '/',
+					}}>
+					<div className="backLabel">
+					<span class="glyphicon glyphicon-arrow-left"></span>
+					<label class="back">رجوع</label>
+				</div>
+			</Link>
+			<label id="transferlbl"> Transfer identifier: {this.state.transfer},{this.state.segment}, {this.state.entity}</label>
+		</div>
+	</div> */}
 
-		export default withRouter(TransferDetails)
+	<div className="transferdiv">
+		<h3>
+			<div className="title">
+				<label id="transferlbl">Transfer identifier: {this.state.transfer},{this.state.segment}, {this.state.entity}</label>
+			</div>
+			<div className="backLabel">
+				<Link to={{
+					pathname: '/',
+				}}>
+				<div className="backLabel">
+					<span class="glyphicon glyphicon-arrow-left"></span>
+					<label class="back">رجوع</label>
+				</div>
+			</Link>
+		</div>
+	</h3>
+</div>
+
+<div>
+	<div className="divtable" dir="rtl">
+		<table id="t01">
+			<thead>
+				<tr id="header">
+					<th>م</th>
+					<th>البند</th>
+					<th>النشاط</th>
+					<th>الموقع</th>
+					<th>المنقول منه</th>
+					<th>المنقول إليه</th>
+				</tr>
+			</thead>
+			<tbody>
+				{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+);
+}
+else{
+	return(
+		<div className="transferdiv">
+			<h3>
+				<div className="title">
+					<label id="transferlbl">Transfer identifier: {this.state.transfer},{this.state.segment}, {this.state.entity}</label>
+				</div>
+				<div className="backLabel">
+					<Link to={{
+						pathname: '/',
+					}}>
+					<div className="backLabel">
+						<span class="glyphicon glyphicon-arrow-left"></span>
+						<label class="back">رجوع</label>
+					</div>
+				</Link>
+			</div>
+		</h3>
+	</div>
+	);
+}
+}
+}
+}
+
+export default withRouter(TransferDetails)

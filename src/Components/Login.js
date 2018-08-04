@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link , Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import '../css/app.css'
-
-let Url = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/applications';
 
 class Login extends React.Component{
   constructor(props){
@@ -24,15 +22,21 @@ class Login extends React.Component{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
     // })
     axios.get('http://127.0.0.1:5000/logIn',{
-    headers: {'auth': 'a2FyaW0udGFoYTpoeXBwbGFuMTIz'}
+    headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
-    console.log(response);
-    localStorage.setItem('auth', btoa(name+":"+password));
-    localStorage.setItem('loggedIn', true);
-    localStorage.setItem('username', name);
-    this.setState(() => ({
-      redirect: true
-    }))
+    if(response.data === 401){
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+      console.log("error");
+    }
+    else{
+      console.log(response);
+      localStorage.setItem('auth', btoa(name+":"+password));
+      localStorage.setItem('loggedIn', true);
+      localStorage.setItem('username', name);
+      this.setState(() => ({
+        redirect: true
+      }))
+    }
   })
   .catch(function (error) {
     document.getElementById("loaderBackground").style.visibility = "hidden";
@@ -49,7 +53,7 @@ render(){
   }
   return(
     <div className="container">
-      <div class="transferdiv transferdiv-login">
+      <div className="transferdiv transferdiv-login">
       </div>
       <div className="body">
         <div className="formcontainer">

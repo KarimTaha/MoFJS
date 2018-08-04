@@ -22,7 +22,7 @@ body, html {
   background-color: black;
   position: absolute;
   color: white;
-  padding-right: 1%;
+  padding-left: 4px;
 }
 .userName{
   font-size: 12px;
@@ -82,6 +82,7 @@ h1{
   text-align: center;
   margin-top: 40px;
   font-size:45px;
+  color: #b7941d;
 }
 
 /* Body */

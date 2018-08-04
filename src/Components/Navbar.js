@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link , Redirect, withRouter } from 'react-router-dom';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import '../css/app.css'
 
-var props;
 class Login extends React.Component{
 
   constructor(props){
@@ -25,8 +23,10 @@ class Login extends React.Component{
       <div className="container">
         {loggedIn?
           <div className="blackBar">
-            <span className="userName">Logged in as {localStorage.getItem('username')}</span>
-            <a className="noStyle" onClick={this.logOut}><span className="userName">Log out</span></a>
+            <span className="glyphicon glyphicon-log-out"></span>
+            <a className="noStyle" onClick={this.logOut}><span className="userName">خروج</span></a>
+            <span className="userName">{localStorage.getItem('username')} تم الدخول كـ</span>
+
           </div>
           :<div className="blackBar">
           </div>}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {askagree , hideWindow} from '../js/home.js';
 import {withRouter} from 'react-router-dom';
 import Row from './Row.js';
 import axios from 'axios';
@@ -31,6 +30,19 @@ class Transfers extends Component{
       'url': baseUrl + 'applications/' + appName + '/dataexport/' + ruleName}
     }).then((response) => {
       this.setState({data:response.data});
+
+      var len = this.state.data.rows.length;
+      var radios;
+
+      for (var i = 0; i<len; i++){
+        radios = document.getElementsByName(i);
+        for (var j = 0; j < radios.length; j++)
+        {
+          if(radios[j].value === "No-action"){
+            radios[j].checked = true;
+          }
+        }
+      }
     })
   }
 
@@ -43,7 +55,7 @@ class Transfers extends Component{
 
       return(
         <div>
-          <div class="transferdiv">
+          <div className="transferdiv">
             <h3><label id="transferlbl">المرحلة الخامسة - مساعد وكيل الوزارة</label></h3>
           </div>
 
@@ -69,7 +81,7 @@ class Transfers extends Component{
                 </tbody>
               </table>
             </div>
-            <input type="button" className="submitBtn" name="submit" value="Submit" onClick={askagree}/>
+            <input type="button" className="submitBtn" name="submit" value="Submit" onClick={submit.bind(null,data.rows.length)}/>
           </div>
         </div>
 
@@ -85,6 +97,31 @@ class Transfers extends Component{
     }
   }
 
+}
+
+function submit(len){
+  var radios;
+
+  for (var i = 0; i<len; i++){
+    radios = document.getElementsByName(i);
+    for (var j = 0; j < radios.length; j++)
+    {
+      var curr = radios[j];
+      if (curr.checked)
+      {
+        // do whatever you want with the checked radio
+        if(curr.value === "Yes"){
+          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": YES");
+        }
+        if(curr.value === "No"){
+          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": NO");
+        }
+
+
+        break;
+      }
+  }
+}
 }
 
 export default withRouter(Transfers);
