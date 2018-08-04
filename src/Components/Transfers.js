@@ -31,10 +31,10 @@ class Transfers extends Component{
     }).then((response) => {
       this.setState({data:response.data});
 
-      if(this.state.data){
+      if(this.state.data.rows){
         var len = this.state.data.rows.length;
         var radios;
-        
+
         for (var i = 0; i<len; i++){
           radios = document.getElementsByName(i);
           for (var j = 0; j < radios.length; j++)
