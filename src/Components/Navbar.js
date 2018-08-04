@@ -35,7 +35,7 @@ class Login extends React.Component{
             <nav className="nav">
               <div className="child one">
                 <div className="circle">
-                  <img src="img/Logo.png" alt="logo" className="imgLogo"/>
+                  <img src="img/Logo.jpg" alt="logo" className="imgLogo"/>
                 </div>
               </div>
 
