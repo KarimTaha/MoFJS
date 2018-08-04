@@ -31,15 +31,17 @@ class Transfers extends Component{
     }).then((response) => {
       this.setState({data:response.data});
 
-      var len = this.state.data.rows.length;
-      var radios;
-
-      for (var i = 0; i<len; i++){
-        radios = document.getElementsByName(i);
-        for (var j = 0; j < radios.length; j++)
-        {
-          if(radios[j].value === "No-action"){
-            radios[j].checked = true;
+      if(this.state.data){
+        var len = this.state.data.rows.length;
+        var radios;
+        
+        for (var i = 0; i<len; i++){
+          radios = document.getElementsByName(i);
+          for (var j = 0; j < radios.length; j++)
+          {
+            if(radios[j].value === "No-action"){
+              radios[j].checked = true;
+            }
           }
         }
       }
@@ -111,15 +113,15 @@ function submit(len){
       {
         // do whatever you want with the checked radio
         if(curr.value === "Yes"){
-          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": YES");
-        }
-        if(curr.value === "No"){
-          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": NO");
-        }
-
-
-        break;
+        console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": YES");
       }
+      if(curr.value === "No"){
+        console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": NO");
+      }
+
+
+      break;
+    }
   }
 }
 }
