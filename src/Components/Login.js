@@ -21,10 +21,10 @@ class Login extends React.Component{
     // axios.get(Url,{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
     // })
-    axios.get('http://127.0.0.1:5000/logIn',{
+    axios.get('http://142.93.22.27:5000/logIn',{
     headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
-    if(response.data === 401){
+    if(response.data === 401 || response.data === 400){
       document.getElementById("loaderBackground").style.visibility = "hidden";
       console.log("error");
     }

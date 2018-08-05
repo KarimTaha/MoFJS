@@ -24,7 +24,7 @@ class Transfers extends Component{
     // }).then((response) => {
     //   this.setState({data:response.data});
     // });
-    axios.get('http://127.0.0.1:5000/getData',
+    axios.get('http://142.93.22.27:5000/getData',
     {
       headers: {'auth': localStorage.getItem('auth'),
       'url': baseUrl + 'applications/' + appName + '/dataexport/' + ruleName}

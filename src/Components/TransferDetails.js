@@ -42,7 +42,7 @@ class TransferDetails extends React.Component{
 			// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')},
 			// 	data: body
 			// })
-			axios.get('http://127.0.0.1:5000/getDetails',
+			axios.get('http://142.93.22.27:5000/getDetails',
 			{
 				headers: {'auth': localStorage.getItem('auth'),
 				'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
