@@ -89,7 +89,7 @@ class Approved extends Component{
 
   componentDidMount(){
     document.getElementById("loaderBackground").style.visibility = "visible";
-    axios.get(testUrl+'/getData',
+    axios.get(serverUrl+'/getData',
     {
       headers: {'auth': localStorage.getItem('auth'),
       'url': baseUrl + 'applications/' + appName + '/dataexport/1.3.9 NFT-LM Approval Stage 9 - All'}

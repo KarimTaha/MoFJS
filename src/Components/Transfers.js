@@ -57,7 +57,7 @@ class Transfers extends Component{
     console.log(localStorage.getItem('auth'));
 
     document.getElementById("commentBox").style.visibility = "hidden";
-    axios.get(testUrl+'/postComment',
+    axios.get(serverUrl+'/postComment',
     {
       headers: {
         'auth': localStorage.getItem('auth'),
@@ -82,7 +82,7 @@ class Transfers extends Component{
   componentDidMount(){
     document.getElementById("loaderBackground").style.visibility = "visible";
     formName = getFormName(localStorage.getItem('stageNumber'));
-    axios.get(testUrl+'/getData',
+    axios.get(serverUrl+'/getData',
     {
       headers: {'auth': localStorage.getItem('auth'),
       'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}

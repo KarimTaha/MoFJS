@@ -25,7 +25,7 @@ class Login extends React.Component{
     // axios.get(Url,{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
     // })
-    axios.get(testUrl+'/logIn',{
+    axios.get(serverUrl+'/logIn',{
     headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
     if(response.data === 401 || response.data === 400){

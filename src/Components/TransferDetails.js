@@ -38,7 +38,7 @@ class TransferDetails extends React.Component{
 	componentDidMount(){
 		if(localStorage.getItem('loggedIn') && this.state!=null){
 			document.getElementById("loaderBackground").style.visibility = "visible";
-			axios.get(testUrl+'/getDetails',
+			axios.get(serverUrl+'/getDetails',
 			{
 				headers: {'auth': localStorage.getItem('auth'),
 				'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan + '?q={omitMetadata:false}',
