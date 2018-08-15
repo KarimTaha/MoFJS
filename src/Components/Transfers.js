@@ -7,7 +7,7 @@ import {getStageName, getFormName, getStageNameEN} from '../js/utils'
 
 var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
 var appName = 'MOF_BT';
-var formName = getFormName(localStorage.getItem('stageNumber'));
+var formName;
 var serverUrl = 'http://142.93.22.27:5000'
 var testUrl = 'http://127.0.0.1:5000'
 
@@ -81,6 +81,7 @@ class Transfers extends Component{
 
   componentDidMount(){
     document.getElementById("loaderBackground").style.visibility = "visible";
+    formName = getFormName(localStorage.getItem('stageNumber'));
     axios.get(testUrl+'/getData',
     {
       headers: {'auth': localStorage.getItem('auth'),

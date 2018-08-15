@@ -238,6 +238,8 @@ export function getStageNumber(username){
     return 5;
     case "yalkhoori":
     return 6;
+    default:
+    return 3;
   }
 }
 
@@ -309,6 +311,6 @@ export function getFormName(number){
     case "7":
     return "NFT-Transfers Karim";
     default:
-    return "cannot match stage number to get form name"
+    return "cannot match stage number to get form name";
   }
 }
