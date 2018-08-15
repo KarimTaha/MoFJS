@@ -97,7 +97,7 @@ class Transfers extends Component{
     if(!localStorage.getItem('loggedIn')){
       this.props.history.push('/login');
     }
-    let data = this.state.data;
+    var data = this.state.data;
     if (data.rows){
 
       return(

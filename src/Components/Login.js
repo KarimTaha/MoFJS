@@ -19,8 +19,8 @@ class Login extends React.Component{
   handleSignIn(){
     document.getElementById("loaderBackground").style.visibility = "visible";
 
-    let name = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
+    var name = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
 
     // axios.get(Url,{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
