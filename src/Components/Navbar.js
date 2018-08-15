@@ -24,7 +24,7 @@ class Login extends React.Component{
         {loggedIn?
           <div className="blackBar">
             <span className="glyphicon glyphicon-log-out"></span>
-            <a className="noStyle" onClick={this.logOut}><span className="userName">خروج</span></a>
+            <a className="noStyle" onClick={this.logOut}><span className="userName"> خروج</span></a>
             <span className="userName">{localStorage.getItem('username')} تم الدخول كـ</span>
 
           </div>

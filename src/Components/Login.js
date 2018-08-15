@@ -2,6 +2,10 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import '../css/app.css'
+import {getStageNumber} from '../js/utils'
+
+var serverUrl = 'http://142.93.22.27:5000'
+var testUrl = 'http://127.0.0.1:5000'
 
 class Login extends React.Component{
   constructor(props){
@@ -21,7 +25,7 @@ class Login extends React.Component{
     // axios.get(Url,{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
     // })
-    axios.get('http://142.93.22.27:5000/logIn',{
+    axios.get(testUrl+'/logIn',{
     headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
     if(response.data === 401 || response.data === 400){
@@ -33,6 +37,7 @@ class Login extends React.Component{
       localStorage.setItem('auth', btoa(name+":"+password));
       localStorage.setItem('loggedIn', true);
       localStorage.setItem('username', name);
+      localStorage.setItem('stageNumber', getStageNumber(name));
       this.setState(() => ({
         redirect: true
       }))

@@ -1,28 +1,24 @@
 import React from 'react';
+import {getTransferName, getSegmentName, getEntityName, numFormat, getLine} from '../js/utils'
 
 function DetailsRow(props){
 
   let row = props.data;
   if (row){
-    var header;
-    switch(row.row[0]) {
-      case "LI01":
-          header = "ONE"
-          break;
-      case "LI02":
-          header = "TWO"
-          break;
-      default:
-          header = "NONE"
-    }
+    var lineItem = row.row[0];
+    var account = row.data[0];
+    var activity = row.data[2];
+    var location = row.data[1];
+    var fromAmount = row.data[3];
+    var toAmount = row.data[4];
       return(
           <tr>
-						<td>{header}</td>
-						<td>{row.data[0]}</td>
-            <td>{row.data[2]}</td>
-            <td>{row.data[1]}</td>
-            <td>{row.data[3]}</td>
-            <td>{row.data[4]}</td>
+						<td>{props.id+1}</td>
+            <td>{account}</td>
+            <td>{activity}</td>
+            <td>{location}</td>
+            <td>{numFormat(fromAmount)}</td>
+            <td>{numFormat(toAmount)}</td>
           </tr>
       );
   }

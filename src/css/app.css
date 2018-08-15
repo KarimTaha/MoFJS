@@ -14,6 +14,9 @@ body, html {
   width: 100%; height: 100%;
   background: url("/img/background2.jpg");
  }
+ a{
+   text-decoration: none;
+ }
 
 /* Header */
 .blackBar{
@@ -23,6 +26,7 @@ body, html {
   position: absolute;
   color: white;
   padding-left: 4px;
+  padding-top: 4px;
 }
 .userName{
   font-size: 12px;
@@ -68,6 +72,9 @@ span {
   font-size: 13px;
   color: white;
 }
+.glyphicon-edit{
+  padding-right: 10px;
+}
 .left{
   float: left;
   width: 50%;
@@ -90,14 +97,63 @@ h1{
 .transferdiv{
   height: 50px;
   text-align: right;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
   background-color: #b7941d;
   color: white;
   padding-top: 10px;
-  padding-right: 4%;
+  padding-right: 5%;
 }
+
+#commentBox{
+  height: 300px;
+  width: 400px;
+  background: white;
+  position: fixed;
+  top: 35%;
+  left: 35%;
+  border: 3px solid #b7941d;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1;
+  visibility: hidden;
+}
+#commentTitle{
+  padding: 20px;
+}
+#commentBody{
+  width: 80%;
+  height: 50%;
+  margin: 10px;
+}
+.commentButton{
+  margin: 10px;
+  margin-top: 0px;
+}
+
+/* .searchEntity{
+  margin-left: 5%;
+  margin-bottom: 2%;
+  border: 2px solid #b7941d;
+  border-radius: 5px;
+  height: 40px;
+  width: 20%;
+  padding: 10px;
+} */
 #transferlbl{
   font-size: 25px;
+}
+#approvedLink{
+  font-size: 25px;
+  color: #b7941d;
+  margin-bottom: 2%;
+  margin-left: 5%;
+  width: 14%;
+}
+#approvedLink span{
+  color: #b7941d;
+}
+#approvedLink p{
+  color: #b7941d;
 }
 .divtable{
   width: 95%;
@@ -121,7 +177,15 @@ th, td {
   padding-top: 10px;
   text-align: center;
   color:  #636363;
-  min-width: 60px;
+  min-width: 25px;
+  /* max-width: 90px; */
+}
+#lastColumn{
+  max-width: 48px;
+}
+
+.sumRow{
+  font-weight: bold;
 }
 
 table#t01 th {
@@ -272,6 +336,7 @@ tr#header {
 .title{
   width: 50%;
   float: right;
+  padding-top: 5px;
 }
 .backLabel{
   text-align: left;
@@ -282,7 +347,11 @@ tr#header {
 .glyphicon-arrow-left{
   color: white;
 }
-
+.glyphicon-sort{
+  color: white;
+  font-size: 12px;
+  padding-right: 25px;
+}
 /* Login */
 .formBody{
     width: 100%;
@@ -443,7 +512,7 @@ input.rightInput{
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.5);
   z-index: 1;
   visibility: hidden;
 }
