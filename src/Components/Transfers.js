@@ -156,7 +156,9 @@ class Transfers extends Component{
   else {
     return(
       <div className="loaderBackground" id="loaderBackground">
-        <div className="loader"/>
+        <div className="loaderContainer">
+          <div className="loader"/>
+        </div>
       </div>
     );
   }
