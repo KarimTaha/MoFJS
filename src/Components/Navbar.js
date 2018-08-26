@@ -9,15 +9,16 @@ class Login extends React.Component{
     this.logOut = this.logOut.bind(this);
   }
 
+  // Handle logOut by clearing storage and redirecting to login page
   logOut(){
     localStorage.clear();
     this.props.history.push('/login');
+    // Force rerender
     this.forceUpdate();
   }
 
   render(){
     var loggedIn = localStorage.getItem('loggedIn');
-    // console.log(loggedIn);
 
     return(
       <div className="container">

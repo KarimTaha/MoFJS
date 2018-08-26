@@ -5,10 +5,12 @@ import axios from 'axios';
 import '../css/app.css'
 import {getStageName, getFormName, getStageNameEN} from '../js/utils'
 
+//Dubai server Hyperion url
 var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
 var appName = 'MOF_BT';
-var formName;
+//Server that has Python app deployed
 var serverUrl = 'http://142.93.22.27:5000'
+//Localhost Python server
 var testUrl = 'http://127.0.0.1:5000'
 
 class Transfers extends Component{
@@ -18,45 +20,54 @@ class Transfers extends Component{
     this.state= {
       data: []
     }
+    //Binding methods used
     this.showCommentBox = this.showCommentBox.bind(this);
     this.hideCommentBox = this.hideCommentBox.bind(this);
     this.postComment = this.postComment.bind(this);
   }
 
+  //This method is called onClick when edit icon is clicked. It shows a window that allows entering/editing comment for the specified transfer
   showCommentBox = (e) => {
+    //Get identifiers for comment selected
     let entity = e.target.getAttribute("entity");
     let transfer = e.target.getAttribute("transfer");
     let segment = e.target.getAttribute("segment");
     let version = getStageNameEN(localStorage.getItem('stageNumber'));
     let id = e.target.getAttribute("id");
-    // console.log("Entity: " + entity);
-    // console.log("Transfer: " + transfer);
-    // console.log("Segment: " + segment);
-    // console.log("ID: " + id);
+    //Text inside the comment that is displayed
     var text = document.getElementById("Text-"+id).textContent;
-    // console.log(text);
+    //Make comment window visible
     document.getElementById("commentBox").style.visibility = "visible";
+    //Set textarea text to the comment body
     document.getElementById("commentBody").value = text;
+    //Set comment identifier text
     document.getElementById("commentIdentifier").innerHTML = entity + ", " + transfer + ", " + segment;
-
+    //Get submit comment button element
     var button = document.getElementById("submitComment");
+    //Set button attributes to use it in postComment
     button.setAttribute("data-entity", entity);
     button.setAttribute("data-transfer", transfer);
     button.setAttribute("data-segment", segment);
     button.setAttribute("data-version", version);
   }
 
+  //This method gets the target transfer details from the submitBtn attributes. Then takes the text inside the textarea and posts the comment to Hyperion
   postComment(){
+    //Set loader to be visible
     document.getElementById("loaderBackground").style.visibility = "visible";
+    //Get submit button element
     let button = document.getElementById("submitComment");
+    //Get transfer attributes from button
     let entity = button.getAttribute("data-entity");
     let transfer = button.getAttribute("data-transfer")
     let segment = button.getAttribute("data-segment")
     let version = button.getAttribute("data-version")
+    //Get text inside the textarea to post it as the comment
     let text = document.getElementById("commentBody").value;
-    console.log(localStorage.getItem('auth'));
-
+    //Hide the comment box
     document.getElementById("commentBox").style.visibility = "hidden";
+    //Sent request to Python app to post the comment to Hyperion
+    //Params required: auth base64, url, entity, transfer, segment, version, text
     axios.get(serverUrl+'/postComment',
     {
       headers: {
@@ -69,42 +80,52 @@ class Transfers extends Component{
         'text': text
       }
     }).then((response) => {
-      console.log(response.data);
+      console.log("Number of accepted cells: "+response.data.numAcceptedCells);
+      console.log("Number of rejected cells: "+response.data.numRejectedCells);
+      //Call componentDidMount to re render page with modified comments
       this.componentDidMount();
     })
 
   }
 
+  // This function hides the comment window. Called when cancel is clicked
   hideCommentBox(){
     document.getElementById("commentBox").style.visibility = "hidden";
   }
 
   componentDidMount(){
+    //Set loader to visible while the data is loaded
     document.getElementById("loaderBackground").style.visibility = "visible";
-    formName = getFormName(localStorage.getItem('stageNumber'));
+    //Get required form name using logged in user's stage number
+    var formName = getFormName(localStorage.getItem('stageNumber'));
+    //Send GET request to Python app to retrieve data in form
     axios.get(serverUrl+'/getData',
     {
       headers: {'auth': localStorage.getItem('auth'),
       'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}
     }).then((response) => {
-      console.log(response.data);
+      //Set state.data to the data received
       this.setState({data:response.data});
+      //Hide the loader after loading data is done
       document.getElementById("loaderBackground").style.visibility = "hidden";
     })
   }
 
   render(){
+    //If the user is not logged in, redirect to login page
     if(!localStorage.getItem('loggedIn')){
       this.props.history.push('/login');
     }
     var data = this.state.data;
+    //Check if data is loaded first
     if (data.rows){
-
       return(
         <div>
+          {/* Loader animation */}
           <div className="loaderBackground" id="loaderBackground">
             <div className="loader"/>
           </div>
+          {/* Comment entry box */}
           <div id="commentBox">
             <div id="commentTitle">Comments</div>
             <div id="commentIdentifier">M09, NFT001, TS01</div>
@@ -113,9 +134,11 @@ class Transfers extends Component{
             <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="Send" onClick={this.postComment}/>
             <input type="button" className="commentButton" value="Cancel" onClick={this.hideCommentBox}/>
           </div>
+          {/* The gold bar that has stage name */}
           <div className="transferdiv">
             <h3><label id="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label></h3>
           </div>
+          {/* Link to the approved transfers (stage 9) page */}
           <div id="approvedLink">
             <Link to={{
               pathname: '/Approved',
@@ -123,6 +146,7 @@ class Transfers extends Component{
             <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المناقلات المعتمدة</p>
           </Link>
         </div>
+        {/* Data retrieved from form - saved in state - to be displayed in a table */}
         <div className="body" dir="rtl">
           <div className="divtable">
             <table id="t01">
@@ -141,11 +165,13 @@ class Transfers extends Component{
                   <th id="lastColumn">بدون إجراء</th>
                 </tr>
               </thead>
+              {/* Map each row in data.rows to a Row component */}
               <tbody>
                 {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i} showCommentBox={this.showCommentBox}></Row>) : <p>No Data</p>}
               </tbody>
             </table>
           </div>
+          {/* Submit transfers' actions button, confirm before action */}
           <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) submit(this.state.data.rows.length)}}/>
         </div>
       </div>
@@ -155,26 +181,29 @@ class Transfers extends Component{
   }
   else {
     return(
+      //If no data is in state, just display loader
       <div className="loaderBackground" id="loaderBackground">
-        <div className="loaderContainer">
-          <div className="loader"/>
-        </div>
+        <div className="loader"/>
       </div>
-    );
+    )
   }
+//Close render function
+}
+//End Class
 }
 
-}
-
+//Submit transfers' actions to Hyperion
 function submit(len){
   var radios;
-
+  //Loop on transfers available in page
   for (var i = 0; i<len; i++){
+    //get the four radio buttons for this transfer
     radios = document.getElementsByName(i);
     for (var j = 0; j < radios.length; j++){
+      //Loop on each radio button
       var curr = radios[j];
       if (curr.checked){
-        // do whatever you want with the checked radio
+        // do whatever you want with the checked radio according to value
         if(curr.value === "Yes"){
         console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": YES");
       }
@@ -184,8 +213,6 @@ function submit(len){
       if(curr.value === "No"){
         console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": NO");
       }
-
-
       break;
     }
   }
