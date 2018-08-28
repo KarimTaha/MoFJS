@@ -318,6 +318,10 @@ input.rightInput{
   }
 }
 @media only screen and (max-width: 500px) {
+  .imgLogo{
+    width: 130%;
+    margin-top: 5px;
+  }
   .transferlbl{
     font-size: 12px;
   }
