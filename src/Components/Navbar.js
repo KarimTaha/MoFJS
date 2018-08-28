@@ -36,7 +36,7 @@ render(){
 
         <div className="header row">
           <div className="col-3">
-            <img src="img/logo.jpg" alt="logo" className="imgLogo"/>
+            <img src="img/Logo.jpg" alt="logo" className="imgLogo"/>
           </div>
 
           <div className="col-6 headerTitle bold">
