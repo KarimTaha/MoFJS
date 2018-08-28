@@ -221,7 +221,7 @@ export function numFormat(number){
 export function getStageNumber(username){
   switch(username){
     case "karim.taha":
-    return 4;
+    return 5;
     case "mohamed.nasser":
     return 4;
     case "aaelshamy":
@@ -255,7 +255,7 @@ export function getStageName(number){
     case "4":
     return "المرحلة الرابعة - مدير إدارة الميزانية";
     case "5":
-    return "المرحلة الخامسة - مساعد وكيل وزارة";
+    return "المرحلة الخامسة - وكيل الوزارة المساعد";
     case "6":
     return "المرحلة السادسة - وكيل وزارة";
     case "7":

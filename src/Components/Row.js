@@ -16,6 +16,7 @@ function Row(props){
     return(
       <tr>
         <td>{props.id+1}</td>
+        <td>NFT</td>
         <td>{getTransferName(transfer)+" - "+getSegmentName(segment)}</td>
         <td>{getEntityName(entity)}</td>
         <td>{date}</td>

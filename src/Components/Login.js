@@ -57,33 +57,40 @@ render(){
     return <Redirect to='/' />
   }
   return(
-    <div className="container">
-      <div className="transferdiv transferdiv-login">
+    <div className="container-fluid">
+      <div className="transferdiv transferdiv-login row">
       </div>
-      <div className="body">
-        <div className="formcontainer">
-          <div className="inside">
-            <h3>تسجيل الدخول</h3>
+      <div className="row">
+        <div className="col">
+        </div>
+        <div className="col-sm-10 col-lg-6">
+          <div className="formcontainer">
+            <div className="formTitle bold">
+              <h3>تسجيل الدخول</h3>
+            </div>
+
+            <div id="form">
+              <form>
+                <div>
+
+                  <div className="input">
+                    <input type="text" id="username" placeholder="إسم المستخدم" className="rightInput"/>
+                  </div>
+
+                  <div className="input">
+                    <input id="password" type="password" placeholder="كلمة السر" className="rightInput"/>
+                  </div>
+
+                  <div className="input">
+                    <input type="button" id="signInBtn" value="دخول" onClick={this.handleSignIn}/>
+                  </div>
+
+                </div>
+              </form>
+            </div>
           </div>
-          <div className="inside" id="form">
-            <form>
-              <div className="formcontrols">
-
-                <div className="input">
-                  <input type="text" id="username" placeholder="إسم المستخدم" className="rightInput"/>
-                </div>
-
-                <div className="input">
-                  <input id="password" type="password" placeholder="كلمة السر" className="rightInput"/>
-                </div>
-
-                <div className="input">
-                  <input type="button" id="signInBtn" value="دخول" onClick={this.handleSignIn}/>
-                </div>
-
-              </div>
-            </form>
-          </div>
+        </div>
+        <div className="col">
         </div>
       </div>
       <div className="loaderBackground" id="loaderBackground">

@@ -19,6 +19,7 @@ function DetailsRow(props){
             <td>{location}</td>
             <td>{numFormat(fromAmount)}</td>
             <td>{numFormat(toAmount)}</td>
+            <td></td>
           </tr>
       );
   }
