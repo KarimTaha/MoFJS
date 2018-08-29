@@ -7,6 +7,7 @@ class Login extends React.Component{
   constructor(props){
     super(props);
     this.logOut = this.logOut.bind(this);
+    this.goToHome = this.goToHome.bind(this);
   }
 
   // Handle logOut by clearing storage and redirecting to login page
@@ -15,6 +16,13 @@ class Login extends React.Component{
   this.props.history.push('/login');
   // Force rerender
   this.forceUpdate();
+}
+
+goToHome(){
+  var url = window.location.href;
+  if(url.charAt(url.length-1) !== "/") {
+    this.props.history.push('/');
+  }
 }
 
 render(){
@@ -44,7 +52,7 @@ render(){
           </div>
 
           <div className="col-3 zayedLogoDiv">
-            <img src="img/Zayed.jpg" alt="logo" className="zayedLogo"/>
+            <img src="img/Zayed.jpg" alt="logo" className="zayedLogo" onClick={this.goToHome}/>
           </div>
         </div>
 
