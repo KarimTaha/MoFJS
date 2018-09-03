@@ -53,7 +53,6 @@ export function getLine(name){
 
 export function getTransferName(name){
   var end = name.substring(4,name.length);
-  console.log(end);
   switch(end) {
     case "01":
     return "حزمة ١";
@@ -75,6 +74,26 @@ export function getTransferName(name){
     return "حزمة ٩";
     case "10":
     return "حزمة ١٠";
+    case "11":
+    return "حزمة ١١";
+    case "12":
+    return "حزمة ١٢";
+    case "13":
+    return "حزمة ١٣";
+    case "14":
+    return "حزمة ١٤";
+    case "15":
+    return "حزمة ١٥";
+    case "16":
+    return "حزمة ١٦";
+    case "17":
+    return "حزمة ١٧";
+    case "18":
+    return "حزمة ١٨";
+    case "19":
+    return "حزمة ١٩";
+    case "10":
+    return "حزمة ٢٠";
     default:
     return "Cannot match transfer";
   }
@@ -319,6 +338,9 @@ export function getFormName(number){
 
 export function transferType(name){
   var start = name.substring(0,2);
+  if(start === "PF" && name.substring(4,name.length)>10){
+    return "PFT1";
+  }
   switch(start){
     case "NF":
     return "NFT"

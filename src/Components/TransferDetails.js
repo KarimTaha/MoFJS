@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
-import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName} from '../js/utils'
+import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName, transferType} from '../js/utils'
 
 import DetailsRow from './DetailsRow.js'
 
@@ -33,7 +33,7 @@ class TransferDetails extends React.Component{
 sum(col){
 var sum = 0;
 for(var i = 0; i<this.state.data.rows.length; i++){
-	sum += Number(this.state.data.rows[i].data[col==="from"?3:4]);
+	sum += Number(this.state.data.rows[i].data[col==="from"?12:13]);
 }
 return sum;
 }
@@ -55,9 +55,12 @@ componentDidMount(){
 		'version': getStageNameEN(this.state.version)
 	}
 }).then((response) => {
+	console.log(response.data);
 	//Set the transfer type variable according to transfer name
+	var type;
 	if(response.data.pov[11]){
-		var type = response.data.pov[11].charAt(3)==="T"?"MPFT":response.data.pov[11].substring(0,3);
+		// var type = response.data.pov[11].charAt(3)==="T"?"MPFT":response.data.pov[11].substring(0,3);
+		type = transferType(response.data.pov[11]);
 	}
 	//Set the state to be the data for Transfer details
 	this.setState({data:response.data, type:type});
@@ -119,7 +122,7 @@ if(data.rows){
 							<th className="bigCol">البند</th>
 							<th className="bigCol">النشاط</th>
 							<th className="bigCol">الموقع</th>
-							{this.state.type==="PFT" || this.state.type==="MPFT"?<th className="bigCol">المشروع</th>:null}
+							{this.state.type==="PFT" || this.state.type==="PFT1" || this.state.type==="MPFT"?<th className="bigCol">المشروع</th>:null}
 							{this.state.type==="MFT" || this.state.type==="MPFT"?<th>الجهة</th>:null}
 							{this.state.type==="AFT"?null:<th>المنقول منه</th>}
 							<th>المنقول إليه</th>
@@ -136,7 +139,7 @@ if(data.rows){
 							<td></td>
 							<td></td>
 							{this.state.type==="MFT" || this.state.type==="MPFT"?<th></th>:null}
-							{this.state.type==="PFT" || this.state.type==="MPFT"?<td></td>:null}
+							{this.state.type==="PFT" || this.state.type==="PFT1" || this.state.type==="MPFT"?<td></td>:null}
 							{/* numFormat function is used to show number with comma separators */}
 							{this.state.type==="AFT"?null:<td>{numFormat(this.sum("from"))}</td>}
 							<td>{numFormat(this.sum("to"))}</td>
