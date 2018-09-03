@@ -10,6 +10,10 @@ import './App.css';
 
 class App extends Component {
 
+  componentDidMount(){
+    document.title = "المناقلات المالية";
+  }
+
   render() {
     return(
       <BrowserRouter>
