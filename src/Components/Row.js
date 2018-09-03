@@ -21,7 +21,7 @@ function Row(props){
         <td>{getEntityName(entity)}</td>
         <td>{date}</td>
         <td>{numFormat(amount)}</td>
-        <td id={"Text-"+props.id}>{comments} <span className="glyphicon glyphicon-edit" entity={entity} transfer={transfer} segment={segment} id={props.id} onClick={((e) => props.showCommentBox(e))}/></td>
+        <td id={"Text-"+props.id}>{comments}<span className="glyphicon glyphicon-edit" entity={entity} transfer={transfer} segment={segment} id={props.id} onClick={((e) => props.showCommentBox(e))}/></td>
         <td>
           <Link to={{
             pathname: 'TransferDetails',
