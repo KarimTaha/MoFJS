@@ -52,26 +52,28 @@ export function getLine(name){
 }
 
 export function getTransferName(name){
-  switch(name) {
-    case "NFT001":
+  var end = name.substring(4,name.length);
+  console.log(end);
+  switch(end) {
+    case "01":
     return "حزمة ١";
-    case "NFT002":
+    case "02":
     return "حزمة ٢";
-    case "NFT003":
+    case "03":
     return "حزمة ٣";
-    case "NFT004":
+    case "04":
     return "حزمة ٤";
-    case "NFT005":
+    case "05":
     return "حزمة ٥";
-    case "NFT006":
+    case "06":
     return "حزمة ٦";
-    case "NFT007":
+    case "07":
     return "حزمة ٧";
-    case "NFT008":
+    case "08":
     return "حزمة ٨";
-    case "NFT009":
+    case "09":
     return "حزمة ٩";
-    case "NFT010":
+    case "10":
     return "حزمة ١٠";
     default:
     return "Cannot match transfer";
@@ -312,5 +314,23 @@ export function getFormName(number){
     return "NFT-Transfers Karim";
     default:
     return "cannot match stage number to get form name";
+  }
+}
+
+export function transferType(name){
+  var start = name.substring(0,2);
+  switch(start){
+    case "NF":
+    return "NFT"
+    case "AF":
+    return "AFT";
+    case "PF":
+    return "PFT";
+    case "MP":
+    return "MPFT";
+    case "MF":
+    return "MFT";
+    default:
+    return "Transfer type not matched";
   }
 }

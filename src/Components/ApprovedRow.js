@@ -1,5 +1,5 @@
 import React from 'react';
-import {getTransferName, getSegmentName, getEntityName, numFormat, getLine} from '../js/utils'
+import {getTransferName, getSegmentName, getEntityName, numFormat} from '../js/utils'
 import { Link } from 'react-router-dom';
 
 function ApprovedRow(props){

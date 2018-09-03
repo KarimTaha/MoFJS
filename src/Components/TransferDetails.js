@@ -22,7 +22,8 @@ class TransferDetails extends React.Component{
 			entity : props.location.state.entity,
 			transfer : props.location.state.transfer,
 			segment : props.location.state.segment,
-			version : props.location.state.version
+			version : props.location.state.version,
+			type: ""
 		}
 	}
 	//Bind functions
@@ -43,18 +44,23 @@ componentDidMount(){
 	//Set the loader animation to be visible
 	document.getElementById("loaderBackground").style.visibility = "visible";
 	//Send GET request to Python app to get Transfer details
+	console.log(this.state.entity +", "+this.state.transfer+", "+ this.state.segment+", "+this.state.version);
 	axios.get(serverUrl+'/getDetails',
 	{
 		headers: {'auth': localStorage.getItem('auth'),
-		'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan + '?q={omitMetadata:false}',
+		'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
 		'entity': this.state.entity,
 		'transfer': this.state.transfer,
 		'segment': this.state.segment,
 		'version': getStageNameEN(this.state.version)
 	}
 }).then((response) => {
+	//Set the transfer type variable according to transfer name
+	if(response.data.pov[11]){
+		var type = response.data.pov[11].charAt(3)==="T"?"MPFT":response.data.pov[11].substring(0,3);
+	}
 	//Set the state to be the data for Transfer details
-	this.setState({data:response.data});
+	this.setState({data:response.data, type:type});
 	//Hide the loader animation
 	document.getElementById("loaderBackground").style.visibility = "hidden";
 })
@@ -113,22 +119,26 @@ if(data.rows){
 							<th className="bigCol">البند</th>
 							<th className="bigCol">النشاط</th>
 							<th className="bigCol">الموقع</th>
-							<th>المنقول منه</th>
+							{this.state.type==="PFT" || this.state.type==="MPFT"?<th className="bigCol">المشروع</th>:null}
+							{this.state.type==="MFT" || this.state.type==="MPFT"?<th>الجهة</th>:null}
+							{this.state.type==="AFT"?null:<th>المنقول منه</th>}
 							<th>المنقول إليه</th>
 							<th>رسالة التحقق</th>
 						</tr>
 					</thead>
 					<tbody>
 						{/* Map each line to a DetailsRow component */}
-						{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
+						{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} type={this.state.type} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
 						{/* Show the sum of source and destination columns */}
 						<tr className="sumRow">
 							<td>الإجمالي</td>
 							<td></td>
 							<td></td>
 							<td></td>
+							{this.state.type==="MFT" || this.state.type==="MPFT"?<th></th>:null}
+							{this.state.type==="PFT" || this.state.type==="MPFT"?<td></td>:null}
 							{/* numFormat function is used to show number with comma separators */}
-							<td>{numFormat(this.sum("from"))}</td>
+							{this.state.type==="AFT"?null:<td>{numFormat(this.sum("from"))}</td>}
 							<td>{numFormat(this.sum("to"))}</td>
 							<td></td>
 						</tr>

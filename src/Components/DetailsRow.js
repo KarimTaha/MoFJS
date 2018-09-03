@@ -1,9 +1,10 @@
 import React from 'react';
-import {getTransferName, getSegmentName, getEntityName, numFormat, getLine} from '../js/utils'
+import {numFormat} from '../js/utils'
 
 function DetailsRow(props){
 
   let row = props.data;
+  let type = props.type;
   if (row){
     var lineItem = row.row[0];
     var account = row.data[0];
@@ -17,7 +18,9 @@ function DetailsRow(props){
             <td>{account}</td>
             <td>{activity}</td>
             <td>{location}</td>
-            <td>{numFormat(fromAmount)}</td>
+            {type==="PFT" || type==="MPFT"?<td>proj</td>:null}
+            {type==="MFT" || type==="MPFT"?<td>ent</td>:null}
+            {type==="AFT"?null:<td>{numFormat(fromAmount)}</td>}
             <td>{numFormat(toAmount)}</td>
             <td></td>
           </tr>
