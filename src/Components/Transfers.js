@@ -128,13 +128,13 @@ return(
       <div className="loader"/>
     </div>
     {/* Comment entry box */}
-    <div id="commentBox">
-      <div id="commentTitle">Comments</div>
+    <div id="commentBox" dir="rtl">
+      <div id="commentTitle">التعليقات</div>
       <div id="commentIdentifier">M09, NFT001, TS01</div>
       <textarea name="commentBody" id="commentBody"/>
       <br/>
-      <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="Send" onClick={this.postComment}/>
-      <input type="button" className="commentButton" value="Cancel" onClick={this.hideCommentBox}/>
+      <input type="button" className="commentButton" value="إلغاء" onClick={this.hideCommentBox}/>
+      <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="إرسال" onClick={this.postComment}/>
     </div>
     {/* The gold bar that has stage name */}
     <div className="transferdiv row">
