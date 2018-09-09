@@ -7,6 +7,10 @@ function Row(props){
 
   let row = props.data;
   if (row){
+    console.log(row.data[3]);
+    if(row.data[3]==="1"){
+      return (null);
+    }
     let entity = row.row[0];
     let transfer = row.row[1];
     let segment = row.row[2];
@@ -36,9 +40,7 @@ function Row(props){
         <td>
           <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="Yes"/>
         </td>
-        <td>
-          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="Up"/>
-        </td>
+        {localStorage.getItem('stageNumber')==="7"?null:<td><input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="Up"/></td>}
         <td>
           <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="No"/>
         </td>

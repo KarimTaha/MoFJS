@@ -66,7 +66,10 @@ componentDidMount(){
 	this.setState({data:response.data, type:type});
 	//Hide the loader animation
 	document.getElementById("loaderBackground").style.visibility = "hidden";
-})
+	}).catch(error => {
+		document.getElementById("loader").style.visibility = "hidden";
+		console.log("error occurred!");
+	});
 }
 }
 
@@ -86,10 +89,6 @@ let data = this.state.data;
 if(data.rows){
 	return(
 		<div className="container-fluid">
-			{/* Loader animation div */}
-			<div className="loaderBackground" id="loaderBackground">
-				<div className="loader"/>
-			</div>
 			{/* Gold bar that has Transfer identifier details, back link */}
 			<div className="transferdiv transferlbl row">
 				{/* Link to go back */}
@@ -175,10 +174,6 @@ else{
 			<label>{getTransferName(this.state.transfer)} - {getSegmentName(this.state.segment)}</label>
 		</div>
 
-	</div>
-	{/* Loader animation */}
-	<div className="loaderBackground" id="loaderBackground">
-		<div className="loader"/>
 	</div>
 </div>
 );

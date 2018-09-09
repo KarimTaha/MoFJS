@@ -23,6 +23,11 @@ class App extends Component {
           <Route exact path="/" component={Transfers} />
           <Route exact path="/Login" component={Login}/>
           <Route exact path="/Approved" component={Approved}/>
+          {/* If no data is in state, just display loader */}
+          <div className="loaderBackground" id="loaderBackground">
+            <div className="loader" id="loader">
+            </div>
+          </div>
         </div>
       </BrowserRouter>
     )

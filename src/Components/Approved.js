@@ -138,7 +138,10 @@ componentDidMount(){
   this.setState({data:response.data});
   // Hide the loader animation
   document.getElementById("loaderBackground").style.visibility = "hidden";
-})
+  }).catch(error => {
+    document.getElementById("loader").style.visibility = "hidden";
+    console.log("error occurred!");
+  });
 }
 
 render(){
@@ -151,10 +154,6 @@ let data = this.state.data;
 if (data.rows){
 return(
   <div className="container-fluid">
-    {/* Loader animation */}
-    <div className="loaderBackground" id="loaderBackground">
-      <div className="loader"/>
-    </div>
     {/* The gold bar that has stage name */}
     <div className="transferdiv transferlbl row">
       {/* Link to go back to home page */}
@@ -223,11 +222,6 @@ else {
       <label>{getStageName(9)}</label>
     </div>
 
-  </div>
-  {/* Loader animation */}
-  <div className="loaderBackground" id="loaderBackground">
-    <div className="loader">
-    </div>
   </div>
 </div>
 );

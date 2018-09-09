@@ -29,7 +29,7 @@ class Login extends React.Component{
     headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
     if(response.data === 401 || response.data === 400){
-      document.getElementById("loaderBackground").style.visibility = "hidden";
+      document.getElementById("loader").style.visibility = "hidden";
       console.log("error");
     }
     else{
@@ -44,7 +44,7 @@ class Login extends React.Component{
     }
   })
   .catch(function (error) {
-    document.getElementById("loaderBackground").style.visibility = "hidden";
+    document.getElementById("loader").style.visibility = "hidden";
     console.log(error);
     console.log(localStorage.getItem('auth'));
   });
@@ -92,9 +92,6 @@ render(){
         </div>
         <div className="col">
         </div>
-      </div>
-      <div className="loaderBackground" id="loaderBackground">
-        <div className="loader"/>
       </div>
     </div>
   );

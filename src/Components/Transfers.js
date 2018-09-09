@@ -110,7 +110,10 @@ componentDidMount(){
     this.setState({data:response.data});
     //Hide the loader after loading data is done
     document.getElementById("loaderBackground").style.visibility = "hidden";
-  })
+  }).catch(error => {
+    document.getElementById("loader").style.visibility = "hidden";
+    console.log("error occurred!");
+  });
 }
 
 render(){
@@ -119,14 +122,11 @@ render(){
   this.props.history.push('/login');
 }
 var data = this.state.data;
+console.log(localStorage.getItem('stageNumber'));
 //Check if data is loaded first
 if (data.rows){
 return(
   <div className="container-fluid">
-    {/* Loader animation */}
-    <div className="loaderBackground" id="loaderBackground">
-      <div className="loader"/>
-    </div>
     {/* Comment entry box */}
     <div id="commentBox" dir="rtl">
       <div id="commentTitle">التعليقات</div>
@@ -166,7 +166,7 @@ return(
               <th className="bigCol">ملاحظات</th>
               <th>تفاصيل</th>
               <th>إعتماد</th>
-              <th>ترقية</th>
+              {localStorage.getItem('stageNumber')==="7"?null:<th>ترقية</th>}
               <th>رفض</th>
               <th id="lastColumn">بدون إجراء</th>
             </tr>
@@ -189,11 +189,6 @@ return(
 else {
   return(
     <div className="container-fluid">
-      {/* If no data is in state, just display loader */}
-      <div className="loaderBackground" id="loaderBackground">
-        <div className="loader">
-        </div>
-      </div>
       <div className="transferdiv row">
         <div className="col">
           <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
@@ -209,29 +204,29 @@ else {
 
 //Submit transfers' actions to Hyperion
 function submit(len){
-var radios;
-//Loop on transfers available in page
-for (var i = 0; i<len; i++){
-//get the four radio buttons for this transfer
-radios = document.getElementsByName(i);
-for (var j = 0; j < radios.length; j++){
-  //Loop on each radio button
-  var curr = radios[j];
-  if (curr.checked){
-    // do whatever you want with the checked radio according to value
-    if(curr.value === "Yes"){
-    console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": YES");
+  var radios;
+  //Loop on transfers available in page
+  for (var i = 0; i<len; i++){
+    //get the four radio buttons for this transfer
+    radios = document.getElementsByName(i);
+    for (var j = 0; j < radios.length; j++){
+      //Loop on each radio button
+      var curr = radios[j];
+      if (curr.checked){
+        // do whatever you want with the checked radio according to value
+        if(curr.value === "Yes"){
+          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Approve");
+        }
+        if(curr.value === "Up"){
+          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Promote");
+        }
+        if(curr.value === "No"){
+          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Reject");
+        }
+        break;
+      }
+    }
   }
-  if(curr.value === "Up"){
-    console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": UP");
-  }
-  if(curr.value === "No"){
-    console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": NO");
-  }
-  break;
-}
-}
-}
 }
 
 export default withRouter(Transfers);

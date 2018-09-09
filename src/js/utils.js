@@ -92,7 +92,7 @@ export function getTransferName(name){
     return "حزمة ١٨";
     case "19":
     return "حزمة ١٩";
-    case "10":
+    case "20":
     return "حزمة ٢٠";
     default:
     return "Cannot match transfer";
@@ -242,7 +242,7 @@ export function numFormat(number){
 export function getStageNumber(username){
   switch(username){
     case "karim.taha":
-    return 5;
+    return 7;
     case "mohamed.nasser":
     return 4;
     case "aaelshamy":
@@ -354,5 +354,23 @@ export function transferType(name){
     return "MFT";
     default:
     return "Transfer type not matched";
+  }
+}
+
+export function getRuleName(stageNum){
+  stageNum += "";
+  switch (stageNum) {
+    case "3":
+    return "Stage 3 rule";
+    case "4":
+    return "Stage 4 rule";
+    case "5":
+    return "Stage 5 rule";
+    case "6":
+    return "Stage 6 rule";
+    case "7":
+    return "Stage 7 rule";
+    default:
+
   }
 }
