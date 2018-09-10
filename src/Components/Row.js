@@ -7,10 +7,6 @@ function Row(props){
 
   let row = props.data;
   if (row){
-    console.log(row.data[3]);
-    if(row.data[3]==="1"){
-      return (null);
-    }
     let entity = row.row[0];
     let transfer = row.row[1];
     let segment = row.row[2];

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName, transferType} from '../js/utils'
 
 import DetailsRow from './DetailsRow.js'
@@ -67,9 +68,11 @@ componentDidMount(){
 	//Hide the loader animation
 	document.getElementById("loaderBackground").style.visibility = "hidden";
 	}).catch(error => {
-		document.getElementById("loader").style.visibility = "hidden";
-		console.log("error occurred!");
-	});
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred!",{
+      autoClose: false
+      });
+  });
 }
 }
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Row from './Row.js';
 import axios from 'axios';
 import '../css/app.css'
@@ -105,14 +107,22 @@ componentDidMount(){
     headers: {'auth': localStorage.getItem('auth'),
     'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}
   }).then((response) => {
-    console.log(response);
+    // Delete rows that have flag set (Business rule running)
+    for(var i = 0; i<response.data.rows.length; i++){
+      if(response.data.rows[i].data[3]){
+        response.data.rows.splice(i,1);
+        i--;
+      }
+    }
     //Set state.data to the data received
     this.setState({data:response.data});
     //Hide the loader after loading data is done
     document.getElementById("loaderBackground").style.visibility = "hidden";
   }).catch(error => {
-    document.getElementById("loader").style.visibility = "hidden";
-    console.log("error occurred!");
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred!",{
+      autoClose: false
+      });
   });
 }
 
@@ -122,7 +132,7 @@ render(){
   this.props.history.push('/login');
 }
 var data = this.state.data;
-console.log(localStorage.getItem('stageNumber'));
+console.log("Stage: "+localStorage.getItem('stageNumber'));
 //Check if data is loaded first
 if (data.rows){
 return(

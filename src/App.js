@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import Navbar from './Components/Navbar';
 import Transfers from './Components/Transfers';
 import TransferDetails from './Components/TransferDetails';
@@ -28,6 +29,7 @@ class App extends Component {
             <div className="loader" id="loader">
             </div>
           </div>
+          <ToastContainer />
         </div>
       </BrowserRouter>
     )

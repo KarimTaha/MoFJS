@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {withRouter, Link} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import '../css/app.css'
 import {getStageName} from '../js/utils'
@@ -139,8 +140,10 @@ componentDidMount(){
   // Hide the loader animation
   document.getElementById("loaderBackground").style.visibility = "hidden";
   }).catch(error => {
-    document.getElementById("loader").style.visibility = "hidden";
-    console.log("error occurred!");
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred!",{
+      autoClose: false
+      });
   });
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import '../css/app.css'
 import {getStageNumber} from '../js/utils'
@@ -29,8 +30,10 @@ class Login extends React.Component{
     headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
     if(response.data === 401 || response.data === 400){
-      document.getElementById("loader").style.visibility = "hidden";
-      console.log("error");
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+      toast.error("Wrong username or password!",{
+        autoClose: false
+        });
     }
     else{
       console.log(response);
@@ -43,10 +46,11 @@ class Login extends React.Component{
       }))
     }
   })
-  .catch(function (error) {
-    document.getElementById("loader").style.visibility = "hidden";
-    console.log(error);
-    console.log(localStorage.getItem('auth'));
+  .catch(error => {
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred!",{
+      autoClose: false
+      });
   });
 
 }
