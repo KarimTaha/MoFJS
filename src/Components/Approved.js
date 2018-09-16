@@ -334,24 +334,14 @@ render(){
 
     </div>
 
-    <div className="row">
+    <div className="row" dir="rtl">
+
       <div className="col-md-3 col-sm-12">
-        <div className="inline">
-          <DatePicker
-              selected={this.state.endDate}
-              onChange={this.endDateChange}
-              dateFormat="DD/MM/YYYY"
-              className="datePicker"
-              placeholderText="إلى تاريخ"
-          />
-        </div>
-        {/* <div className="inline">
-          إلى تاريخ
-        </div> */}
+        <Select options={options} value={this.state.selectedOption} isClearable isRtl placeholder="الجهة" onChange={this.filterEntityChange} id="entitySelect" />
       </div>
 
       <div className="col-md-3 col-sm-12">
-        <div className="inline">
+        <div className="inline" dir="ltr">
           <DatePicker
               selected={this.state.startDate}
               onChange={this.startDateChange}
@@ -366,10 +356,18 @@ render(){
         <br className="clearBoth" />
       </div>
 
-
       <div className="col-md-3 col-sm-12">
-        <Select options={options} value={this.state.selectedOption} isClearable isRtl placeholder="الجهة" onChange={this.filterEntityChange} id="entitySelect" />
+        <div className="inline" dir="ltr">
+          <DatePicker
+              selected={this.state.endDate}
+              onChange={this.endDateChange}
+              dateFormat="DD/MM/YYYY"
+              className="datePicker"
+              placeholderText="إلى تاريخ"
+          />
+        </div>
       </div>
+
 
     </div>
     <div className="row">
