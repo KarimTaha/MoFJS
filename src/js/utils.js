@@ -242,7 +242,7 @@ export function numFormat(number){
 export function getStageNumber(username){
   switch(username){
     case "karim.taha":
-    return 7;
+    return 4;
     case "mohamed.nasser":
     return 4;
     case "aaelshamy":

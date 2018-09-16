@@ -34,7 +34,7 @@ class TransferDetails extends React.Component{
 sum(col){
 var sum = 0;
 for(var i = 0; i<this.state.data.rows.length; i++){
-	sum += Number(this.state.data.rows[i].data[col==="from"?12:13]);
+	sum += Number(this.state.data.rows[i].data[col==="from"?15:16]);
 }
 return sum;
 }

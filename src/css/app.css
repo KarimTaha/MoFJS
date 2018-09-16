@@ -15,6 +15,8 @@ body, html {
 a{
   text-decoration: none;
 }
+div.inline { float:left; }
+.clearBoth { clear:both; }
 
 /* Header */
 .blackBar{
@@ -159,6 +161,29 @@ padding: 10px;
 #approvedLink p{
   color: #b7941d;
 }
+
+.datePicker{
+  margin-right: 10px;
+  border: 1px solid #c4c7ce;
+  border-radius: 3px;
+  text-align: right;
+  padding: 5px;
+  width: 100%;
+}
+
+.filterButtons{
+  margin-left: 4%;
+}
+
+.filterButton{
+  background-color: #ddc05a;
+  margin: 10px;
+}
+
+.cancelFilterButton{
+  margin: 10px;
+}
+
 .divtable{
   width: 100%;
   overflow: auto;

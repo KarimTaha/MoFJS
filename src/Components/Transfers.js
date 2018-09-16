@@ -26,6 +26,7 @@ class Transfers extends Component{
     this.showCommentBox = this.showCommentBox.bind(this);
     this.hideCommentBox = this.hideCommentBox.bind(this);
     this.postComment = this.postComment.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   //This method is called onClick when edit icon is clicked. It shows a window that allows entering/editing comment for the specified transfer
@@ -96,6 +97,123 @@ hideCommentBox(){
 document.getElementById("commentBox").style.visibility = "hidden";
 }
 
+//Submit transfers' actions to Hyperion
+submit(len){
+  //Set loader to be visible
+  document.getElementById("loaderBackground").style.visibility = "visible";
+  var radios;
+  var promises = [];
+  var that = this;
+  var approveRule = false;
+  var rejectRule = false;
+  //Loop on transfers available in page
+  for (var i = 0; i<len; i++){
+    //get the four radio buttons for this transfer
+    radios = document.getElementsByName(i);
+    for (var j = 0; j < radios.length; j++){
+      //Loop on each radio button
+      var curr = radios[j];
+      if (curr.checked){
+        var entity = curr.getAttribute('entity');
+        var transfer = curr.getAttribute('transfer');
+        var segment = curr.getAttribute('segment');
+        var vNum = curr.getAttribute('vnum');
+        var flag = 0;
+        // do whatever you want with the checked radio according to value
+        if(curr.value === "Yes"){
+          flag = 2;
+          approveRule = true;
+        }
+        if(curr.value === "Up"){
+          flag = 1;
+          approveRule = true;
+        }
+        if(curr.value === "No"){
+          flag = 3;
+          rejectRule = true;
+        }
+        if(flag != 0){
+          console.log("set flag: "+ Date.now()/1000);
+          promises.push(axios.get(serverUrl+'/setFlag',
+          {
+            headers: {
+              'auth': localStorage.getItem('auth'),
+              'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
+              'entity': entity,
+              'transfer': transfer,
+              'segment': segment,
+              'version': getStageNameEN(vNum),
+              'flag': flag
+            }
+          }));
+        }
+      }
+    }
+  }
+  axios.all(promises).then(function(results) {
+    for(var i = 0; i<results.length; i++){
+      console.log(results[i]);
+    }
+    if(approveRule && rejectRule){
+      console.log("approve and rej entered if cond: "+Date.now()/1000);
+      axios.get(serverUrl+'/runRule',
+      {
+        headers: {
+          'auth': localStorage.getItem('auth'),
+          'url': baseUrl + 'applications/' + appName + '/jobs',
+          'ruleName': 'Test_Empty_Approve'
+        }
+      }).then((response)=> {
+        console.log("Approve in both: "+Date.now()/1000);
+        console.log(response);
+        axios.get(serverUrl+'/runRule',
+        {
+          headers: {
+            'auth': localStorage.getItem('auth'),
+            'url': baseUrl + 'applications/' + appName + '/jobs',
+            'ruleName': 'Test_Empty_Reject'
+          }
+        }).then((response)=> {
+          console.log(response);
+          console.log("reject in both: "+Date.now()/1000);
+          window.location.reload();
+        })
+      })
+    }
+    else if(approveRule){
+      axios.get(serverUrl+'/runRule',
+      {
+        headers: {
+          'auth': localStorage.getItem('auth'),
+          'url': baseUrl + 'applications/' + appName + '/jobs',
+          'ruleName': 'Test_Empty_Approve'
+        }
+      }).then((response)=> {
+        console.log("Approve only: "+Date.now()/1000);
+        console.log(response);
+        window.location.reload();
+      })
+    }
+    else if(rejectRule){
+      axios.get(serverUrl+'/runRule',
+      {
+        headers: {
+          'auth': localStorage.getItem('auth'),
+          'url': baseUrl + 'applications/' + appName + '/jobs',
+          'ruleName': 'Test_Empty_Reject'
+        }
+      }).then((response)=> {
+        console.log("Reject only: "+Date.now()/1000);
+        console.log(response);
+        window.location.reload();
+      })
+    }
+
+  });
+  if(promises.length === 0)
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+}
+
 componentDidMount(){
   //Set loader to visible while the data is loaded
   document.getElementById("loaderBackground").style.visibility = "visible";
@@ -132,7 +250,6 @@ render(){
   this.props.history.push('/login');
 }
 var data = this.state.data;
-console.log("Stage: "+localStorage.getItem('stageNumber'));
 //Check if data is loaded first
 if (data.rows){
 return(
@@ -183,13 +300,13 @@ return(
           </thead>
           {/* Map each row in data.rows to a Row component */}
           <tbody>
-            {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i} showCommentBox={this.showCommentBox}></Row>) : <p>No Data</p>}
+            {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
           </tbody>
         </table>
       </div>
     </div>
     {/* Submit transfers' actions button, confirm before action */}
-    <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) submit(this.state.data.rows.length)}}/>
+    <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) this.submit(this.state.data.rows.length)}}/>
   </div>
 </div>
 
@@ -212,31 +329,5 @@ else {
 //End Class
 }
 
-//Submit transfers' actions to Hyperion
-function submit(len){
-  var radios;
-  //Loop on transfers available in page
-  for (var i = 0; i<len; i++){
-    //get the four radio buttons for this transfer
-    radios = document.getElementsByName(i);
-    for (var j = 0; j < radios.length; j++){
-      //Loop on each radio button
-      var curr = radios[j];
-      if (curr.checked){
-        // do whatever you want with the checked radio according to value
-        if(curr.value === "Yes"){
-          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Approve");
-        }
-        if(curr.value === "Up"){
-          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Promote");
-        }
-        if(curr.value === "No"){
-          console.log(curr.getAttribute('entity')+", "+curr.getAttribute('transfer')+", "+curr.getAttribute('segment')+": Reject");
-        }
-        break;
-      }
-    }
-  }
-}
 
 export default withRouter(Transfers);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {getTransferName, getSegmentName, getEntityName, numFormat} from '../js/utils'
+import {getTransferName, getSegmentName, getEntityName, numFormat, transferType} from '../js/utils'
 import { Link } from 'react-router-dom';
 
 function ApprovedRow(props){
@@ -15,6 +15,7 @@ function ApprovedRow(props){
     return(
       <tr>
         <td>{num}</td>
+        <td>{transferType(transfer)}</td>
         <td>{getTransferName(transfer)+" - "+getSegmentName(segment)}</td>
         <td>{getEntityName(entity)}</td>
         <td>{date}</td>

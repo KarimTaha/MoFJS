@@ -10,6 +10,7 @@ function Row(props){
     let entity = row.row[0];
     let transfer = row.row[1];
     let segment = row.row[2];
+    let versionNum = localStorage.getItem('stageNumber');
     let date = row.data[1];
     let amount = row.data[0];
     let comments = row.data[2];
@@ -34,14 +35,14 @@ function Row(props){
           }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
         </td>
         <td>
-          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="Yes"/>
+          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} value="Yes"/>
         </td>
-        {localStorage.getItem('stageNumber')==="7"?null:<td><input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="Up"/></td>}
+        {localStorage.getItem('stageNumber')==="7"?null:<td><input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} value="Up"/></td>}
         <td>
-          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} value="No"/>
+          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} value="No"/>
         </td>
         <td>
-          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} defaultChecked value="No-action"/>
+          <input type="radio" name={props.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} defaultChecked value="No-action"/>
         </td>
       </tr>
 
