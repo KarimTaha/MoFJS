@@ -184,24 +184,10 @@ applyFilters(){
       var y = (startDateFormat[2] + monthName(startDateFormat[0]) + startDateFormat[1]) * 1;
 
       if(x < y){
-        // console.log("Comparing row data (x): ");
-        // console.log(x);
-        // console.log(" with startDate(y) = "+ y);
-        // console.log("x < y , Splice DONE");
-        // console.log("------------------------------")
         filteredArray.splice(i,1);
         i--;
       }
-      // else{
-      //   console.log("Comparing row data(x): ");
-      //   console.log(x);
-      //   console.log(" with startDate(y) = "+ y);
-      //   console.log("y >= x , No Splice");
-      //   console.log("------------------------------")
-      // }
-
     }
-    // console.log(filteredArray);
     this.setState({filteredRows:filteredArray})
   }
   // Filter transfers before end date
@@ -241,17 +227,22 @@ applyFilters(){
       // }
 
     }
-    // console.log(filteredArray);
     this.setState({filteredRows:filteredArray})
   }
 }
 
 cancelFilters(){
-  this.setState({filterEntity:"", startDate:"", endDate:"", filteredRows:this.state.data.rows, selectedOption:""})
+  this.setState({
+    filterEntity:"",
+    startDate:"",
+    endDate:"",
+    filteredRows:this.state.data.rows,
+    selectedOption:""
+  })
 }
 
 filterEntityChange = (selectedOption) => {
-  console.log(selectedOption)
+  // console.log(selectedOption)
   if(selectedOption == null){
     this.setState({filterEntity: "", selectedOption:selectedOption});
   }
@@ -285,6 +276,7 @@ componentDidMount(){
     for(var i = 0; i<response.data.rows.length; i++){
       // Counter starts from zero, but row number should start from one
       response.data.rows[i].num = i+1;
+      //Populate entity list
       var entry = {value: response.data.rows[i].row[0], label: getEntityName(response.data.rows[i].row[0])};
       if(!(entityList.includes(response.data.rows[i].row[0]))) {
         entityList.push(response.data.rows[i].row[0]);
@@ -336,7 +328,7 @@ render(){
 
     <div className="row" dir="rtl">
 
-      <div className="col-md-3 col-sm-12">
+      <div className="col-md-3 col-sm-12" style={{textAlign: 'right'}}>
         <Select options={options} value={this.state.selectedOption} isClearable isRtl placeholder="الجهة" onChange={this.filterEntityChange} id="entitySelect" />
       </div>
 
