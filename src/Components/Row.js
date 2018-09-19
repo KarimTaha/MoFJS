@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../css/bootstrap.min.css'
-import {getTransferName, getSegmentName, getEntityName, numFormat, transferType} from '../js/utils'
+import {getTransferName, getSegmentName, getEntityName, numFormat, transferType, getTransferTypeArabic} from '../js/utils'
 
 function Row(props){
 
@@ -17,7 +17,7 @@ function Row(props){
     return(
       <tr>
         <td>{props.id+1}</td>
-        <td>{transferType(transfer)}</td>
+        <td>{getTransferTypeArabic(transferType(transfer))}</td>
         <td>{getTransferName(transfer)+" - "+getSegmentName(segment)}</td>
         <td>{getEntityName(entity)}</td>
         <td>{date}</td>

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName, transferType} from '../js/utils'
+import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName, transferType,getTransferTypeArabic} from '../js/utils'
 
 import DetailsRow from './DetailsRow.js'
 
@@ -32,11 +32,11 @@ class TransferDetails extends React.Component{
 }
 //Function that takes the name of the column in data, and return the sum of all items in column
 sum(col){
-var sum = 0;
-for(var i = 0; i<this.state.data.rows.length; i++){
-	sum += Number(this.state.data.rows[i].data[col==="from"?15:16]);
-}
-return sum;
+	var sum = 0;
+	for(var i = 0; i<this.state.data.rows.length; i++){
+		sum += Number(this.state.data.rows[i].data[col==="from"?15:16]);
+	}
+	return sum;
 }
 
 componentDidMount(){
@@ -107,9 +107,9 @@ if(data.rows){
 			</div>
 			{/* Transfer identifier */}
 			<div className="title col-8">
-				<label>تفاصيل مناقلة : </label>
 				<label>{getEntityName(this.state.entity)} - </label>
 				<label>{getTransferName(this.state.transfer)} - {getSegmentName(this.state.segment)}</label>
+				<label>{" : " + " مناقلة " + getTransferTypeArabic(this.state.type)}</label>
 			</div>
 
 		</div>
@@ -172,7 +172,6 @@ else{
 			</Link>
 		</div>
 		<div className="title col-8">
-			<label>تفاصيل مناقلة : </label>
 			<label>{getEntityName(this.state.entity)} - </label>
 			<label>{getTransferName(this.state.transfer)} - {getSegmentName(this.state.segment)}</label>
 		</div>

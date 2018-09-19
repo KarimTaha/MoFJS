@@ -374,3 +374,24 @@ export function getRuleName(stageNum){
 
   }
 }
+
+export function getTransferTypeArabic(name){
+  switch (name) {
+    case "NFT":
+    return "عادية"
+    case "PFT":
+    return "مشاريع";
+    case "PFT1":
+    return "مشاريع";
+    case "MFT":
+    return "بين الوزارات";
+    case "MPFT":
+    return "مشاريع بين الوزارات";
+    case "AFT":
+    return "دعم إضافي";
+
+    default:
+    return "Cannot match transfer type"
+
+  }
+}
