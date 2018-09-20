@@ -15,6 +15,12 @@ var serverUrl = 'http://142.93.22.27:5000'
 //Localhost Python server
 var testUrl = 'http://127.0.0.1:5000'
 
+// variables to keep track of last sorting order, changed with each sort
+var dateAsc = true;
+var entityAsc = true;
+var amountAsc = true;
+var numAsc = false;
+
 class Transfers extends Component{
 
   constructor(props){
@@ -27,6 +33,10 @@ class Transfers extends Component{
     this.hideCommentBox = this.hideCommentBox.bind(this);
     this.postComment = this.postComment.bind(this);
     this.submit = this.submit.bind(this);
+
+    this.sortByDate = this.sortByDate.bind(this);
+    this.sortByAmount = this.sortByAmount.bind(this);
+    this.sortByNumber = this.sortByNumber.bind(this);
   }
 
   //This method is called onClick when edit icon is clicked. It shows a window that allows entering/editing comment for the specified transfer
@@ -214,119 +224,208 @@ submit(len){
     document.getElementById("loaderBackground").style.visibility = "hidden";
 }
 
-componentDidMount(){
-  //Set loader to visible while the data is loaded
-  document.getElementById("loaderBackground").style.visibility = "visible";
-  //Get required form name using logged in user's stage number
-  var formName = getFormName(localStorage.getItem('stageNumber'));
-  //Send GET request to Python app to retrieve data in form
-  axios.get(serverUrl+'/getData',
-  {
-    headers: {'auth': localStorage.getItem('auth'),
-    'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}
-  }).then((response) => {
-    // Delete rows that have flag set (Business rule running)
-    for(var i = 0; i<response.data.rows.length; i++){
-      if(response.data.rows[i].data[3]){
-        response.data.rows.splice(i,1);
-        i--;
+
+  // Sort rows by row number
+  sortByNumber(){
+    var data = this.state.data;
+    var rows = data.rows;
+    // Sort using a custom function, compare rows a, b
+    rows.sort(function (a,b) {
+      // Check if last sort was ascending or descending
+      if(numAsc){
+        // Smaller value comes first
+        return a.num-b.num;
       }
+      else{
+        // Bigger value comes first
+        return b.num-a.num;
+      }
+    });
+    // switch sorting order for next time
+    numAsc = !numAsc;
+    // Set state for the data to be rerendered
+    this.setState({data:data});
+  }
+
+  // Sort rows by money amount
+  sortByAmount(){
+    var data = this.state.data;
+    var rows = data.rows;
+    // Sort using a custom function, compare rows a, b
+    rows.sort(function (a,b) {
+      // Check if last sort was ascending or descending
+      if(amountAsc){
+        // Smaller amount comes first
+        return a.data[0]-b.data[0];
+      }
+      else{
+        // Bigger amount comes first
+        return b.data[0]-a.data[0];
+      }
+    });
+    // switch sorting order for next time
+    amountAsc = !amountAsc;
+    // Set state for the data to be rerendered
+    this.setState({data:data});
+  }
+
+  // Sort rows by transfer creation date
+  sortByDate(){
+    var data = this.state.data;
+    var rows = data.rows;
+    // Sort using a custom function, compare rows a, b
+    rows.sort(
+    function (a,b) {
+      //Convert date to array in format [Mon],[DD],[Year]
+      var dateTokens1 = a.data[1].toString().replace(",","").split(" ");
+      var dateTokens2 = b.data[1].toString().replace(",","").split(" ");
+      // console.log(dateTokens1);
+      // Get a numerical value that represents how recent a date is to be able to compare dates
+      var x = (dateTokens1[2] + monthName(dateTokens1[0]) + (dateTokens1[1]<10?"0"+dateTokens1[1]:dateTokens1[1])) * 1;
+      var y = (dateTokens2[2] + monthName(dateTokens2[0]) + (dateTokens2[1]<10?"0"+dateTokens2[1]:dateTokens2[1])) * 1;
+      // console.log(x);
+      // Check if last sort was ascending or descending
+      if(dateAsc)
+        // earlier date comes first
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+      else
+        // later date comes first
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     }
-    //Set state.data to the data received
-    this.setState({data:response.data});
-    //Hide the loader after loading data is done
-    document.getElementById("loaderBackground").style.visibility = "hidden";
-  }).catch(error => {
-    document.getElementById("loaderBackground").style.visibility = "hidden";
-    toast.error("Error occurred!",{
-      autoClose: false
-      });
-  });
-}
+  );
+  // switch sorting order for next time
+  dateAsc = !dateAsc;
+  // Set state for the data to be rerendered
+  this.setState({data:data});
+  }
 
-render(){
-  //If the user is not logged in, redirect to login page
-  if(!localStorage.getItem('loggedIn')){
-  this.props.history.push('/login');
-}
-var data = this.state.data;
-//Check if data is loaded first
-if (data.rows){
-return(
-  <div className="container-fluid">
-    {/* Comment entry box */}
-    <div id="commentBox" dir="rtl">
-      <div id="commentTitle">التعليقات</div>
-      <div id="commentIdentifier">M09, NFT001, TS01</div>
-      <textarea name="commentBody" id="commentBody"/>
-      <br/>
-      <input type="button" className="commentButton" value="إلغاء" onClick={this.hideCommentBox}/>
-      <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="إرسال" onClick={this.postComment}/>
-    </div>
-    {/* The gold bar that has stage name */}
-    <div className="transferdiv row">
-      <div className="col">
-        <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
-      </div>
-    </div>
-    {/* Link to the approved transfers (stage 9) page */}
-    <div id="approvedLink" className="row">
-      <Link to={{
-        pathname: '/Approved',
-      }}>
-      <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المناقلات المعتمدة</p>
-    </Link>
-  </div>
-  {/* Data retrieved from form - saved in state - to be displayed in a table */}
-  <div className="body" dir="rtl">
-    <div className="row">
-      <div className="divtable">
-        <table id="t01">
-          <thead>
-            <tr id="header">
-              <th>#</th>
-              <th>نوع المناقلة</th>
-              <th className="bigCol">المناقلة</th>
-              <th className="bigCol">الجهة</th>
-              <th className="bigCol">تاريخ الطلب</th>
-              <th>المبلغ</th>
-              <th className="bigCol">ملاحظات</th>
-              <th>تفاصيل</th>
-              <th>إعتماد</th>
-              {localStorage.getItem('stageNumber')==="7"?null:<th>ترقية</th>}
-              <th>رفض</th>
-              <th id="lastColumn">بدون إجراء</th>
-            </tr>
-          </thead>
-          {/* Map each row in data.rows to a Row component */}
-          <tbody>
-            {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={i} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {/* Submit transfers' actions button, confirm before action */}
-    <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) this.submit(this.state.data.rows.length)}}/>
-  </div>
-</div>
 
-);
+  componentDidMount(){
+    //Set loader to visible while the data is loaded
+    document.getElementById("loaderBackground").style.visibility = "visible";
+    //Get required form name using logged in user's stage number
+    var formName = getFormName(localStorage.getItem('stageNumber'));
+    //Send GET request to Python app to retrieve data in form
+    axios.get(serverUrl+'/getData',
+    {
+      headers: {'auth': localStorage.getItem('auth'),
+      'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}
+    }).then((response) => {
+      // Delete rows that have flag set (Business rule running)
+      for(var i = 0; i<response.data.rows.length; i++){
+        response.data.rows[i].num = i+1;
+        if(response.data.rows[i].data[3]){
+          response.data.rows.splice(i,1);
+          i--;
+        }
+      }
+      //Set state.data to the data received
+      this.setState({data:response.data});
+      //Hide the loader after loading data is done
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+    }).catch(error => {
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+      toast.error("Error occurred!",{
+        autoClose: false
+        });
+    });
+  }
 
-}
-else {
+  render(){
+    //If the user is not logged in, redirect to login page
+    if(!localStorage.getItem('loggedIn')){
+    this.props.history.push('/login');
+  }
+  var data = this.state.data;
+  //Check if data is loaded first
+  if (data.rows){
   return(
     <div className="container-fluid">
+      {/* Comment entry box */}
+      <div id="commentBox" dir="rtl">
+        <div id="commentTitle">التعليقات</div>
+        <div id="commentIdentifier">M09, NFT001, TS01</div>
+        <textarea name="commentBody" id="commentBody"/>
+        <br/>
+        <input type="button" className="commentButton" value="إلغاء" onClick={this.hideCommentBox}/>
+        <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="إرسال" onClick={this.postComment}/>
+      </div>
+      {/* The gold bar that has stage name */}
       <div className="transferdiv row">
         <div className="col">
           <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
         </div>
       </div>
+      {/* Link to the approved transfers (stage 9) page */}
+      <div id="approvedLink" className="row">
+        <Link to={{
+          pathname: '/Approved',
+        }}>
+        <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المناقلات المعتمدة</p>
+      </Link>
     </div>
-  )
-}
-//Close render function
-}
+    {/* Data retrieved from form - saved in state - to be displayed in a table */}
+    <div className="body" dir="rtl">
+      <div className="row">
+        <div className="divtable">
+          <table id="t01">
+            <thead>
+              <tr id="header">
+                <th># <span className="glyphicon glyphicon-sort" onClick={this.sortByNumber}></span></th>
+                <th>نوع المناقلة</th>
+                <th className="bigCol">المناقلة</th>
+                <th className="bigCol">الجهة <span className="glyphicon glyphicon-sort" onClick={this.sortByNumber}></span></th>
+                <th className="bigCol">تاريخ الطلب <span className="glyphicon glyphicon-sort" onClick={this.sortByDate}></span></th>
+                <th>المبلغ <span className="glyphicon glyphicon-sort" onClick={this.sortByAmount}></span></th>
+                <th className="bigCol">ملاحظات</th>
+                <th>تفاصيل</th>
+                <th>إعتماد</th>
+                {localStorage.getItem('stageNumber')==="7"?null:<th>ترقية</th>}
+                <th>رفض</th>
+                <th id="lastColumn">بدون إجراء</th>
+              </tr>
+            </thead>
+            {/* Map each row in data.rows to a Row component */}
+            <tbody>
+              {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {/* Submit transfers' actions button, confirm before action */}
+      <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) this.submit(this.state.data.rows.length)}}/>
+    </div>
+  </div>
+
+  );
+
+  }
+  else {
+    return(
+      <div className="container-fluid">
+        <div className="transferdiv row">
+          <div className="col">
+            <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  //Close render function
+  }
 //End Class
+}
+
+// Function to get month number from month name TODO: Change function name
+function monthName(monthname) {
+  var months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May',
+    'Jun', 'Jul', 'Aug', 'Sep',
+    'Oct', 'Nov', 'Dec'
+  ];
+  // Jan is in index zero, so add 1
+  var month = months.indexOf(monthname)+1;
+  return month<10?"0"+month:month;
 }
 
 
