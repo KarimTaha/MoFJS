@@ -37,6 +37,7 @@ class Transfers extends Component{
     this.sortByDate = this.sortByDate.bind(this);
     this.sortByAmount = this.sortByAmount.bind(this);
     this.sortByNumber = this.sortByNumber.bind(this);
+    this.testApache = this.testApache.bind(this);
   }
 
   //This method is called onClick when edit icon is clicked. It shows a window that allows entering/editing comment for the specified transfer
@@ -331,6 +332,19 @@ submit(len){
     });
   }
 
+  testApache(){
+    axios.get(baseUrl+'applications/',
+    {
+      headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
+    }).then((response) => {
+      console.log(response);
+    }).catch(error => {
+      toast.error("Error occurred!",{
+        autoClose: false
+        });
+    });
+  }
+
   render(){
     //If the user is not logged in, redirect to login page
     if(!localStorage.getItem('loggedIn')){
@@ -394,6 +408,7 @@ submit(len){
       </div>
       {/* Submit transfers' actions button, confirm before action */}
       <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) this.submit(this.state.data.rows.length)}}/>
+      <input type="button" className="submitBtn" name="test" value="testApache" onClick={this.testApache}/>
     </div>
   </div>
 
