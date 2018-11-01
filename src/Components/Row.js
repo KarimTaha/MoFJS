@@ -49,7 +49,7 @@ class Row extends Component{
                 entity: entity,
                 transfer: transfer,
                 segment: segment,
-                version: 1
+                version: versionNum
               }
             }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
           </td>

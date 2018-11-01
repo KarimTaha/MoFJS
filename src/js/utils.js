@@ -320,19 +320,19 @@ export function getFormName(number){
   number += "";
   switch (number) {
     case "2":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     case "3":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     case "4":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     case "5":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     case "6":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     case "7":
-    return "NFT-Transfers Karim";
+    return "TransfersKarim";
     default:
-    return "cannot match stage number to get form name";
+    return "TransfersKarim";
   }
 }
 

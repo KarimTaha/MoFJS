@@ -14,7 +14,7 @@ import {getStageName, getEntityName} from '../js/utils'
 import ApprovedRow from './ApprovedRow';
 
 //Dubai server Hyperion url
-var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
+var baseUrl = 'http://94.200.95.142:3290/HyperionPlanning/rest/11.1.2.4/';
 var appName = 'MOF_BT';
 //Server that has Python app deployed
 var serverUrl = 'http://142.93.22.27:5000';
@@ -266,10 +266,10 @@ componentDidMount(){
   // Set the loader to be visible
   document.getElementById("loaderBackground").style.visibility = "visible";
   // Sent request to Python app to get data for Stage 9 regardless of user
-  axios.get(serverUrl+'/getData',
+  // axios.get(serverUrl+'/getData',
+  axios.get('/api/forms/approved',
   {
-    headers: {'auth': localStorage.getItem('auth'),
-    'url': baseUrl + 'applications/' + appName + '/dataexport/1.3.9 NFT-LM Approval Stage 9 - All'}
+    headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
   }).then((response) => {
     console.log(response)
     // Add a num value for each row, so that when data is sorted, the row keeps its number

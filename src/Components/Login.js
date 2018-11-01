@@ -26,8 +26,10 @@ class Login extends React.Component{
     // axios.get(Url,{
     //   headers: { 'Authorization': 'Basic '+btoa(name+":"+password) }
     // })
-    axios.get(serverUrl+'/logIn',{
-    headers: {'auth': btoa(name+":"+password)}
+    // axios.get(serverUrl+'/logIn',{
+    axios.get('/api/login',{
+    headers: {'Authorization': 'Basic '+btoa(name+":"+password)}
+    // headers: {'auth': btoa(name+":"+password)}
   }).then((response) => {
     if(response.data === 401 || response.data === 400){
       document.getElementById("loaderBackground").style.visibility = "hidden";
@@ -47,6 +49,8 @@ class Login extends React.Component{
     }
   })
   .catch(error => {
+    console.log(error)
+    console.log("Error in login")
     document.getElementById("loaderBackground").style.visibility = "hidden";
     toast.error("Error occurred!",{
       autoClose: false

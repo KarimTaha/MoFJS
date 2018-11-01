@@ -8,7 +8,7 @@ import '../css/app.css'
 import {getStageName, getFormName, getStageNameEN} from '../js/utils'
 
 //Dubai server Hyperion url
-var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
+var baseUrl = 'http://94.200.95.142:3290/HyperionPlanning/rest/11.1.2.4/';
 var appName = 'MOF_BT';
 //Server that has Python app deployed
 var serverUrl = 'http://142.93.22.27:5000'
@@ -37,71 +37,82 @@ class Transfers extends Component{
     this.sortByDate = this.sortByDate.bind(this);
     this.sortByAmount = this.sortByAmount.bind(this);
     this.sortByNumber = this.sortByNumber.bind(this);
-    this.testApache = this.testApache.bind(this);
   }
 
   //This method is called onClick when edit icon is clicked. It shows a window that allows entering/editing comment for the specified transfer
   showCommentBox = (e) => {
-  //Get identifiers for comment selected
-  let entity = e.target.getAttribute("entity");
-  let transfer = e.target.getAttribute("transfer");
-  let segment = e.target.getAttribute("segment");
-  let version = getStageNameEN(localStorage.getItem('stageNumber'));
-  let id = e.target.getAttribute("id");
-  //Text inside the comment that is displayed
-  var text = document.getElementById("Text-"+id).textContent;
-  //Make comment window visible
-  document.getElementById("commentBox").style.visibility = "visible";
-  //Set textarea text to the comment body
-  document.getElementById("commentBody").value = text;
-  //Set comment identifier text
-  document.getElementById("commentIdentifier").innerHTML = entity + ", " + transfer + ", " + segment;
-  //Get submit comment button element
-  var button = document.getElementById("submitComment");
-  //Set button attributes to use it in postComment
-  button.setAttribute("data-entity", entity);
-  button.setAttribute("data-transfer", transfer);
-  button.setAttribute("data-segment", segment);
-  button.setAttribute("data-version", version);
-}
-
-//This method gets the target transfer details from the submitBtn attributes. Then takes the text inside the textarea and posts the comment to Hyperion
-postComment(){
-//Set loader to be visible
-document.getElementById("loaderBackground").style.visibility = "visible";
-//Get submit button element
-let button = document.getElementById("submitComment");
-//Get transfer attributes from button
-let entity = button.getAttribute("data-entity");
-let transfer = button.getAttribute("data-transfer")
-let segment = button.getAttribute("data-segment")
-let version = button.getAttribute("data-version")
-//Get text inside the textarea to post it as the comment
-let text = document.getElementById("commentBody").value;
-console.log(text);
-//Hide the comment box
-document.getElementById("commentBox").style.visibility = "hidden";
-//Sent request to Python app to post the comment to Hyperion
-//Params required: auth base64, url, entity, transfer, segment, version, text
-axios.post(serverUrl+'/postComment', {text},
-{
-  headers: {
-    'auth': localStorage.getItem('auth'),
-    'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
-    'entity': entity,
-    'transfer': transfer,
-    'segment': segment,
-    'version': version
+    //Get identifiers for comment selected
+    let entity = e.target.getAttribute("entity");
+    let transfer = e.target.getAttribute("transfer");
+    let segment = e.target.getAttribute("segment");
+    let version = getStageNameEN(localStorage.getItem('stageNumber'));
+    let id = e.target.getAttribute("id");
+    //Text inside the comment that is displayed
+    var text = document.getElementById("Text-"+id).textContent;
+    //Make comment window visible
+    document.getElementById("commentBox").style.visibility = "visible";
+    //Set textarea text to the comment body
+    document.getElementById("commentBody").value = text;
+    //Set comment identifier text
+    document.getElementById("commentIdentifier").innerHTML = entity + ", " + transfer + ", " + segment;
+    //Get submit comment button element
+    var button = document.getElementById("submitComment");
+    //Set button attributes to use it in postComment
+    button.setAttribute("data-entity", entity);
+    button.setAttribute("data-transfer", transfer);
+    button.setAttribute("data-segment", segment);
+    button.setAttribute("data-version", version);
   }
-}).then((response) => {
-  // console.log("Number of accepted cells: "+response.data.numAcceptedCells);
-  // console.log("Number of rejected cells: "+response.data.numRejectedCells);
-  console.log(response)
-  //Call componentDidMount to re render page with modified comments
-  this.componentDidMount();
-})
 
-}
+  //This method gets the target transfer details from the submitBtn attributes. Then takes the text inside the textarea and posts the comment to Hyperion
+  postComment(){
+    //Set loader to be visible
+    document.getElementById("loaderBackground").style.visibility = "visible";
+    //Get submit button element
+    let button = document.getElementById("submitComment");
+    //Get transfer attributes from button
+    let entity = button.getAttribute("data-entity");
+    let transfer = button.getAttribute("data-transfer")
+    let segment = button.getAttribute("data-segment")
+    let version = button.getAttribute("data-version")
+    //Get text inside the textarea to post it as the comment
+    let text = document.getElementById("commentBody").value;
+    console.log(text);
+    //Hide the comment box
+    document.getElementById("commentBox").style.visibility = "hidden";
+    //Sent request to Python app to post the comment to Hyperion
+    //Params required: auth base64, url, entity, transfer, segment, version, text
+    // axios.post(serverUrl+'/postComment', {text},
+    // {
+    //   headers: {
+    //     'auth': localStorage.getItem('auth'),
+    //     'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
+    //     'entity': entity,
+    //     'transfer': transfer,
+    //     'segment': segment,
+    //     'version': version
+    //   }
+    // })
+    var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
+    'Department NSP', 'Stage 1 - Working', 'Line Item NSP', transfer, segment],'columns': [['Remarks']],'rows': [{'row': [entity],'data': [text]}]};
+
+    axios({
+  		method: 'post',
+  		url: '/api/postComment',
+  		headers: {
+  			'Authorization': 'Basic '+localStorage.getItem('auth'),
+  			'Content-Type': 'application/json'
+  	},
+  		data: body
+  	}).then((response) => {
+      // console.log("Number of accepted cells: "+response.data.numAcceptedCells);
+      // console.log("Number of rejected cells: "+response.data.numRejectedCells);
+      console.log(response)
+      //Call componentDidMount to re render page with modified comments
+      this.componentDidMount();
+    })
+
+  }
 
 // This function hides the comment window. Called when cancel is clicked
 hideCommentBox(){
@@ -145,18 +156,20 @@ submit(len){
         }
         if(flag != 0){
           console.log("set flag: "+ Date.now()/1000);
-          promises.push(axios.get(serverUrl+'/setFlag',
-          {
-            headers: {
-              'auth': localStorage.getItem('auth'),
-              'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
-              'entity': entity,
-              'transfer': transfer,
-              'segment': segment,
-              'version': getStageNameEN(vNum),
-              'flag': flag
-            }
-          }));
+
+          var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
+          'Department NSP', 'Stage 1 - Working', 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
+
+          promises.push(axios
+            ({
+              method: 'post',
+              url: '/api/setFlag',
+              headers: {
+                'Authorization': 'Basic '+localStorage.getItem('auth'),
+                'Content-Type': 'application/json'
+              },
+              data: body
+            }));
         }
       }
     }
@@ -167,24 +180,36 @@ submit(len){
     }
     if(approveRule && rejectRule){
       console.log("approve and rej entered if cond: "+Date.now()/1000);
-      axios.get(serverUrl+'/runRule',
-      {
-        headers: {
-          'auth': localStorage.getItem('auth'),
-          'url': baseUrl + 'applications/' + appName + '/jobs',
-          'ruleName': 'Test_Empty_Approve'
-        }
-      }).then((response)=> {
+      // axios.get(serverUrl+'/runRule',
+      // {
+      //   headers: {
+      //     'auth': localStorage.getItem('auth'),
+      //     'url': baseUrl + 'applications/' + appName + '/jobs',
+      //     'ruleName': 'Test_Empty_Approve'
+      //   }
+      // })
+      body = 'jobType=RULES&jobName=Test_Empty_Approve'
+      axios({
+    		method: 'post',
+    		url: '/api/runRule',
+    		headers: {
+    			'Authorization': 'Basic '+localStorage.getItem('auth'),
+    			'Content-Type': 'text/plain'
+    	},
+    		data: body
+    	}).then((response)=> {
         console.log("Approve in both: "+Date.now()/1000);
         console.log(response);
-        axios.get(serverUrl+'/runRule',
-        {
-          headers: {
-            'auth': localStorage.getItem('auth'),
-            'url': baseUrl + 'applications/' + appName + '/jobs',
-            'ruleName': 'Test_Empty_Reject'
-          }
-        }).then((response)=> {
+        body = 'jobType=RULES&jobName=Test_Empty_Reject'
+        axios({
+      		method: 'post',
+      		url: '/api/runRule',
+      		headers: {
+      			'Authorization': 'Basic '+localStorage.getItem('auth'),
+      			'Content-Type': 'text/plain'
+      	},
+      		data: body
+      	}).then((response)=> {
           console.log(response);
           console.log("reject in both: "+Date.now()/1000);
           window.location.reload();
@@ -192,27 +217,31 @@ submit(len){
       })
     }
     else if(approveRule){
-      axios.get(serverUrl+'/runRule',
-      {
-        headers: {
-          'auth': localStorage.getItem('auth'),
-          'url': baseUrl + 'applications/' + appName + '/jobs',
-          'ruleName': 'Test_Empty_Approve'
-        }
-      }).then((response)=> {
+      body = 'jobType=RULES&jobName=Test_Empty_Approve'
+      axios({
+    		method: 'post',
+    		url: '/api/runRule',
+    		headers: {
+    			'Authorization': 'Basic '+localStorage.getItem('auth'),
+    			'Content-Type': 'text/plain'
+    	},
+    		data: body
+    	}).then((response)=> {
         console.log("Approve only: "+Date.now()/1000);
         console.log(response);
         window.location.reload();
       })
     }
     else if(rejectRule){
-      axios.get(serverUrl+'/runRule',
-      {
+      body = 'jobType=RULES&jobName=Test_Empty_Reject'
+      axios({
+        method: 'post',
+        url: '/api/runRule',
         headers: {
-          'auth': localStorage.getItem('auth'),
-          'url': baseUrl + 'applications/' + appName + '/jobs',
-          'ruleName': 'Test_Empty_Reject'
-        }
+          'Authorization': 'Basic '+localStorage.getItem('auth'),
+          'Content-Type': 'text/plain'
+      },
+        data: body
       }).then((response)=> {
         console.log("Reject only: "+Date.now()/1000);
         console.log(response);
@@ -307,11 +336,16 @@ submit(len){
     //Get required form name using logged in user's stage number
     var formName = getFormName(localStorage.getItem('stageNumber'));
     //Send GET request to Python app to retrieve data in form
-    axios.get(serverUrl+'/getData',
+    // axios.get(serverUrl+'/getData',
+    axios.get('/api/forms/'+formName,
     {
-      headers: {'auth': localStorage.getItem('auth'),
-      'url': baseUrl + 'applications/' + appName + '/dataexport/' + formName}
+      headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
+      // headers: {'auth': localStorage.getItem('auth'),
+      // 'url': baseUrl + 'applications/MOF_BT/dataexport/' + formName
+
     }).then((response) => {
+      console.log("Response:")
+      console.log(response);
       // Delete rows that have flag set (Business rule running)
       for(var i = 0; i<response.data.rows.length; i++){
         response.data.rows[i].num = i+1;
@@ -325,20 +359,9 @@ submit(len){
       //Hide the loader after loading data is done
       document.getElementById("loaderBackground").style.visibility = "hidden";
     }).catch(error => {
+      console.log(error);
+      console.log("Error in Transfers")
       document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error occurred!",{
-        autoClose: false
-        });
-    });
-  }
-
-  testApache(){
-    axios.get(baseUrl+'applications/',
-    {
-      headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
-    }).then((response) => {
-      console.log(response);
-    }).catch(error => {
       toast.error("Error occurred!",{
         autoClose: false
         });
@@ -408,7 +431,6 @@ submit(len){
       </div>
       {/* Submit transfers' actions button, confirm before action */}
       <input type="button" className="submitBtn" name="submit" value="إرسال" onClick={() => { if (window.confirm('تأكيد؟')) this.submit(this.state.data.rows.length)}}/>
-      <input type="button" className="submitBtn" name="test" value="testApache" onClick={this.testApache}/>
     </div>
   </div>
 

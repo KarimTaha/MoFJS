@@ -46,34 +46,56 @@ componentDidMount(){
 	document.getElementById("loaderBackground").style.visibility = "visible";
 	//Send GET request to Python app to get Transfer details
 	console.log(this.state.entity +", "+this.state.transfer+", "+ this.state.segment+", "+this.state.version);
-	axios.get(serverUrl+'/getDetails',
-	{
-		headers: {'auth': localStorage.getItem('auth'),
-		'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
-		'entity': this.state.entity,
-		'transfer': this.state.transfer,
-		'segment': this.state.segment,
-		'version': getStageNameEN(this.state.version)
+	// axios.get(serverUrl+'/getDetails',
+	// {
+	// 	headers: {'auth': localStorage.getItem('auth'),
+	// 	'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
+	// 	'entity': this.state.entity,
+	// 	'transfer': this.state.transfer,
+	// 	'segment': this.state.segment,
+	// 	'version': getStageNameEN(this.state.version)
+	// }
+
+	var body = `mdxQuery=
+	Select {[Selection Account],[Select Account MoPW],[Select Account OMs],[Selection Activity ${this.state.entity}],
+	[Select Activity M05],[Select Activity M06],[Select Activity MoPW],[Selection Location],[Select Location M05],
+	[Select Location M06],[Select Location MoPW],[Select Project OMs],[Select Project MoPW],[Source Entity],[Target Entity],
+	[Source],[Destination],[Validation Message]} ON COLUMNS, Non Empty {[All Line Items].Children} ON ROWS FROM MOF_BT.MOF_BT
+	WHERE ([Period].[Annual Value],[FY17],[Fund Transfer],[${getStageNameEN(this.state.version)}],[Department NSP],[${this.state.entity}],
+	[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`
+
+	// axios.post('/api/getDetails',{query},
+	// {
+	// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
+
+	axios({
+		method: 'post',
+		url: '/api/getDetails',
+		headers: {
+			'Authorization': 'Basic '+localStorage.getItem('auth'),
+			'Content-Type': 'text/plain'
+	},
+		data: body
+	}).then((response) => {
+		console.log(response);
+		//Set the transfer type variable according to transfer name
+		var type;
+		if(response.data.pov[11]){
+			// var type = response.data.pov[11].charAt(3)==="T"?"MPFT":response.data.pov[11].substring(0,3);
+			type = transferType(response.data.pov[11]);
+		}
+		//Set the state to be the data for Transfer details
+		this.setState({data:response.data, type:type});
+		//Hide the loader animation
+		document.getElementById("loaderBackground").style.visibility = "hidden";
+		}).catch(error => {
+			console.log(error)
+	    document.getElementById("loaderBackground").style.visibility = "hidden";
+	    toast.error("Error occurred!",{
+	      autoClose: false
+	      });
+	  });
 	}
-}).then((response) => {
-	console.log(response.data);
-	//Set the transfer type variable according to transfer name
-	var type;
-	if(response.data.pov[11]){
-		// var type = response.data.pov[11].charAt(3)==="T"?"MPFT":response.data.pov[11].substring(0,3);
-		type = transferType(response.data.pov[11]);
-	}
-	//Set the state to be the data for Transfer details
-	this.setState({data:response.data, type:type});
-	//Hide the loader animation
-	document.getElementById("loaderBackground").style.visibility = "hidden";
-	}).catch(error => {
-    document.getElementById("loaderBackground").style.visibility = "hidden";
-    toast.error("Error occurred!",{
-      autoClose: false
-      });
-  });
-}
 }
 
 render(){
