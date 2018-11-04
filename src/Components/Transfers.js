@@ -94,7 +94,7 @@ class Transfers extends Component{
     //   }
     // })
     var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-    'Department NSP', 'Stage 1 - Working', 'Line Item NSP', transfer, segment],'columns': [['Remarks']],'rows': [{'row': [entity],'data': [text]}]};
+    'Department NSP', version, 'Line Item NSP', transfer, segment],'columns': [['Remarks']],'rows': [{'row': [entity],'data': [text]}]};
 
     axios({
   		method: 'post',
@@ -158,7 +158,7 @@ submit(len){
           console.log("set flag: "+ Date.now()/1000);
 
           var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-          'Department NSP', 'Stage 1 - Working', 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
+          'Department NSP', vNum, 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
           promises.push(axios
             ({
