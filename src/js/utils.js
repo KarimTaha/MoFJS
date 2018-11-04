@@ -241,6 +241,8 @@ export function numFormat(number){
 
 export function getStageNumber(username){
   switch(username){
+    case "admin":
+    return 5;
     case "karim.taha":
     return 4;
     case "mohamed.nasser":
@@ -319,18 +321,16 @@ export function getStageNameEN(number){
 export function getFormName(number){
   number += "";
   switch (number) {
-    case "2":
-    return "TransfersKarim";
     case "3":
-    return "TransfersKarim";
+    return "Transfers_Stage_3";
     case "4":
-    return "TransfersKarim";
+    return "Transfers_Stage_4";
     case "5":
-    return "TransfersKarim";
+    return "Transfers_Stage_5";
     case "6":
-    return "TransfersKarim";
+    return "Transfers_Stage_6";
     case "7":
-    return "TransfersKarim";
+    return "Transfers_Stage_7";
     default:
     return "TransfersKarim";
   }
