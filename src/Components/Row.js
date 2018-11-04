@@ -26,9 +26,9 @@ class Row extends Component{
   render(){
     let row = this.state.data;
     if (row){
-      let entity = row.row[0];
-      let transfer = row.row[1];
-      let segment = row.row[2];
+      let entity = row.row[1];
+      let transfer = row.row[2];
+      let segment = row.row[3];
       let versionNum = localStorage.getItem('stageNumber');
       let date = row.data[1];
       let amount = row.data[0];
