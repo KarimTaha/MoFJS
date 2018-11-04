@@ -188,7 +188,7 @@ submit(len){
       //     'ruleName': 'Test_Empty_Approve'
       //   }
       // })
-      body = 'jobType=RULES&jobName=Test_Empty_Approve'
+      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
       axios({
     		method: 'post',
     		url: '/api/runRule',
@@ -200,7 +200,7 @@ submit(len){
     	}).then((response)=> {
         console.log("Approve in both: "+Date.now()/1000);
         console.log(response);
-        body = 'jobType=RULES&jobName=Test_Empty_Reject'
+        body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
         axios({
       		method: 'post',
       		url: '/api/runRule',
@@ -217,7 +217,7 @@ submit(len){
       })
     }
     else if(approveRule){
-      body = 'jobType=RULES&jobName=Test_Empty_Approve'
+      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
       axios({
     		method: 'post',
     		url: '/api/runRule',
@@ -233,7 +233,7 @@ submit(len){
       })
     }
     else if(rejectRule){
-      body = 'jobType=RULES&jobName=Test_Empty_Reject'
+      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
       axios({
         method: 'post',
         url: '/api/runRule',
