@@ -187,7 +187,9 @@ submit(len){
     }
   }
   console.log("Approve Rule = "+approveRule+", Reject rule = "+ rejectRule);
+  console.log(promises);
   axios.all(promises).then(function(results) {
+    console.log(results);
     if(approveRule && rejectRule){
       console.log("approve and rej entered if cond");
       body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
@@ -247,7 +249,7 @@ submit(len){
       })
     }
 
-  }).catch(error => {
+  }).then(console.log("the new then")).catch(error => {
     console.log(error);
     document.getElementById("loaderBackground").style.visibility = "hidden";
     toast.error("Error occurred axios all!",{
