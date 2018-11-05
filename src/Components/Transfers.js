@@ -145,14 +145,17 @@ submit(len){
         if(curr.value === "Yes"){
           flag = 2;
           approveRule = true;
+          console.log("approveRule set");
         }
         if(curr.value === "Up"){
           flag = 1;
           approveRule = true;
+          console.log("approveRule set");
         }
         if(curr.value === "No"){
           flag = 3;
           rejectRule = true;
+          console.log("rejectRule set");
         }
         if(flag != 0){
           console.log("set flag: "+ Date.now()/1000);
@@ -174,20 +177,13 @@ submit(len){
       }
     }
   }
+  console.log("Approve Rule = "+approveRule+", Reject rule = "+ rejectRule);
   axios.all(promises).then(function(results) {
     for(var i = 0; i<results.length; i++){
       console.log(results[i]);
     }
     if(approveRule && rejectRule){
-      console.log("approve and rej entered if cond: "+Date.now()/1000);
-      // axios.get(serverUrl+'/runRule',
-      // {
-      //   headers: {
-      //     'auth': localStorage.getItem('auth'),
-      //     'url': baseUrl + 'applications/' + appName + '/jobs',
-      //     'ruleName': 'Test_Empty_Approve'
-      //   }
-      // })
+      console.log("approve and rej entered if cond");
       body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
       axios({
     		method: 'post',
@@ -331,41 +327,43 @@ submit(len){
 
 
   componentDidMount(){
-    //Set loader to visible while the data is loaded
-    document.getElementById("loaderBackground").style.visibility = "visible";
-    //Get required form name using logged in user's stage number
-    var formName = getFormName(localStorage.getItem('stageNumber'));
-    //Send GET request to Python app to retrieve data in form
-    // axios.get(serverUrl+'/getData',
-    axios.get('/api/forms/'+formName,
-    {
-      headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
-      // headers: {'auth': localStorage.getItem('auth'),
-      // 'url': baseUrl + 'applications/MOF_BT/dataexport/' + formName
+    if(localStorage.getItem('loggedIn')){
+      //Set loader to visible while the data is loaded
+      document.getElementById("loaderBackground").style.visibility = "visible";
+      //Get required form name using logged in user's stage number
+      var formName = getFormName(localStorage.getItem('stageNumber'));
+      //Send GET request to Python app to retrieve data in form
+      // axios.get(serverUrl+'/getData',
+      axios.get('/api/forms/'+formName,
+      {
+        headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
+        // headers: {'auth': localStorage.getItem('auth'),
+        // 'url': baseUrl + 'applications/MOF_BT/dataexport/' + formName
 
-    }).then((response) => {
-      console.log("Response:")
-      console.log(response);
-      // Delete rows that have flag set (Business rule running)
-      for(var i = 0; i<response.data.rows.length; i++){
-        response.data.rows[i].num = i+1;
-        if(response.data.rows[i].data[3]){
-          response.data.rows.splice(i,1);
-          i--;
+      }).then((response) => {
+        console.log("Response:")
+        console.log(response);
+        // Delete rows that have flag set (Business rule running)
+        for(var i = 0; i<response.data.rows.length; i++){
+          response.data.rows[i].num = i+1;
+          if(response.data.rows[i].data[3]){
+            response.data.rows.splice(i,1);
+            i--;
+          }
         }
-      }
-      //Set state.data to the data received
-      this.setState({data:response.data});
-      //Hide the loader after loading data is done
-      document.getElementById("loaderBackground").style.visibility = "hidden";
-    }).catch(error => {
-      console.log(error);
-      console.log("Error in Transfers")
-      document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error occurred!",{
-        autoClose: false
-        });
-    });
+        //Set state.data to the data received
+        this.setState({data:response.data});
+        //Hide the loader after loading data is done
+        document.getElementById("loaderBackground").style.visibility = "hidden";
+      }).catch(error => {
+        console.log(error);
+        console.log("Error in Transfers")
+        document.getElementById("loaderBackground").style.visibility = "hidden";
+        toast.error("Error occurred!",{
+          autoClose: false
+          });
+      });
+    }
   }
 
   render(){

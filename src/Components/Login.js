@@ -64,6 +64,9 @@ render(){
   if (this.state.redirect === true) {
     return <Redirect to='/' />
   }
+  if(localStorage.getItem('loggedIn')){
+    this.props.history.push('/');
+  }
   return(
     <div className="container-fluid">
       <div className="transferdiv transferdiv-login row">
