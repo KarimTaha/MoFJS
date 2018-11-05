@@ -109,7 +109,8 @@ class Transfers extends Component{
       // console.log("Number of rejected cells: "+response.data.numRejectedCells);
       console.log(response)
       //Call componentDidMount to re render page with modified comments
-      this.componentDidMount();
+      // this.componentDidMount();
+      window.location.reload();
     })
 
   }
@@ -176,66 +177,32 @@ async submit(len){
     }
   }
 
-    if(approveRule && rejectRule){
-      console.log("approve and rej entered if cond");
-      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-      axios({
-    		method: 'post',
-    		url: '/api/runRule',
-    		headers: {
-    			'Authorization': 'Basic '+localStorage.getItem('auth'),
-    			'Content-Type': 'text/plain'
-    	},
-    		data: body
-    	}).then((response)=> {
-        console.log("Approve in both: "+Date.now()/1000);
-        console.log(response);
-        body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-        axios({
-      		method: 'post',
-      		url: '/api/runRule',
-      		headers: {
-      			'Authorization': 'Basic '+localStorage.getItem('auth'),
-      			'Content-Type': 'text/plain'
-      	},
-      		data: body
-      	}).then((response)=> {
-          console.log(response);
-          console.log("reject in both: "+Date.now()/1000);
-          window.location.reload();
-        })
-      })
-    }
-    else if(approveRule){
-      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-      axios({
-    		method: 'post',
-    		url: '/api/runRule',
-    		headers: {
-    			'Authorization': 'Basic '+localStorage.getItem('auth'),
-    			'Content-Type': 'text/plain'
-    	},
-    		data: body
-    	}).then((response)=> {
-        window.location.reload();
-      })
-    }
-    else if(rejectRule){
-      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-      axios({
-        method: 'post',
-        url: '/api/runRule',
-        headers: {
-          'Authorization': 'Basic '+localStorage.getItem('auth'),
-          'Content-Type': 'text/plain'
+  if(approveRule){
+    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+    await axios({
+      method: 'post',
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
       },
-        data: body
-      }).then((response)=> {
-        window.location.reload();
-      })
-    }
-  if(promises.length === 0)
-    document.getElementById("loaderBackground").style.visibility = "hidden";
+      data: body
+    })
+  }
+  if(rejectRule){
+    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
+    await axios({
+      method: 'post',
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
+      },
+      data: body
+    })
+  }
+  document.getElementById("loaderBackground").style.visibility = "hidden";
+  window.location.reload();
 }
 
 
