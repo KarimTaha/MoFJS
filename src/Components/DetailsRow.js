@@ -1,6 +1,8 @@
 import React from 'react';
 import {numFormat} from '../js/utils'
-import {getAccountName} from '../js/smartlists'
+import {getAccountName} from '../js/accounts'
+import {getLocationName} from '../js/locations'
+import {getProjectName} from '../js/projects'
 
 function DetailsRow(props){
 
@@ -39,11 +41,11 @@ function DetailsRow(props){
 						<td>{props.id+1}</td>
             {/* Account, SelectAccountMoPW for PFT, SelectAccountOMs for PFT1 */}
             {type==="NFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
-            {type==="AFT"?<td>{SelectionAccount}</td>:null}
-            {type==="MFT"?<td>{SelectionAccount}</td>:null}
-            {type==="PFT"?<td>{SelectAccountMoPW}</td>:null}
-            {type==="PFT1"?<td>{SelectAccountOMs}</td>:null}
-            {type==="MPFT"?<td>{SelectionAccount}</td>:null}
+            {type==="AFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
+            {type==="MFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
+            {type==="PFT"?<td>{getAccountName(SelectAccountMoPW)}</td>:null}
+            {type==="PFT1"?<td>{getAccountName(SelectAccountOMs)}</td>:null}
+            {type==="MPFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
             {/* Activity, SelectionActivityMxx for NFT, SelectActivityM05, 06 for PFT1 */}
             {type==="NFT"?<td>{SelectionActivityMxx}</td>:null}
             {type==="AFT"?<td>{SelectionActivityMxx}</td>:null}
@@ -52,15 +54,15 @@ function DetailsRow(props){
             {type==="PFT1"?<td>{SelectActivityM05}</td>:null}
             {type==="MPFT"?<td>{SelectionActivityMxx}</td>:null}
             {/* Location */}
-            {type==="NFT"?<td>{SelectionLocation}</td>:null}
-            {type==="AFT"?<td>{SelectionLocation}</td>:null}
-            {type==="MFT"?<td>{SelectionLocation}</td>:null}
-            {type==="PFT"?<td>{SelectLocationMoPW}</td>:null}
-            {type==="PFT1"?<td>{SelectLocationM05}</td>:null}
-            {type==="MPFT"?<td>{SelectionLocation}</td>:null}
+            {type==="NFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
+            {type==="AFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
+            {type==="MFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
+            {type==="PFT"?<td>{getLocationName(SelectLocationMoPW)}</td>:null}
+            {type==="PFT1"?<td>{getLocationName(SelectLocationM05)}</td>:null}
+            {type==="MPFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
             {/* Project */}
-            {type==="PFT" || type==="MPFT"?<td>{SelectProjectMoPW}</td>:null}
-            {type==="PFT1"?<td>{SelectProjectOMs}</td>:null}
+            {type==="PFT" || type==="MPFT"?<td>{getProjectName(SelectProjectMoPW)}</td>:null}
+            {type==="PFT1"?<td>{getProjectName(SelectProjectOMs)}</td>:null}
             {/* Source or target entity */}
             {type==="MFT" || type==="MPFT"?<td>{SourceEntity}</td>:null}
             {/* Source amount */}
