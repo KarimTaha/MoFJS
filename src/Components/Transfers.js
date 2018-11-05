@@ -238,6 +238,12 @@ submit(len){
       })
     }
 
+  }).catch(error => {
+    console.log(error);
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred axios all!",{
+      autoClose: false
+      });
   });
   if(promises.length === 0)
     document.getElementById("loaderBackground").style.visibility = "hidden";
