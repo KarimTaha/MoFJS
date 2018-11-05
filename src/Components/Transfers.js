@@ -164,12 +164,12 @@ submit(len){
           'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
           promises.push(axios.post('/api/setFlag',
-            body,
             {
               	headers: {
                   'Authorization': 'Basic '+localStorage.getItem('auth'),
                   'Content-Type': 'application/json'
-                }
+                },
+                data: body
             }
           )
             // axios
