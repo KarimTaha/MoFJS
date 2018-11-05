@@ -163,22 +163,32 @@ submit(len){
           var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
           'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
-          promises.push(axios
-            ({
-              method: 'post',
-              url: '/api/setFlag',
-              headers: {
-                'Authorization': 'Basic '+localStorage.getItem('auth'),
-                'Content-Type': 'application/json'
-              },
-              data: body
-            }));
+          promises.push(axios.post('/api/setFlag',
+            body,
+            {
+              	headers: {
+                  'Authorization': 'Basic '+localStorage.getItem('auth'),
+                  'Content-Type': 'application/json'
+                }
+            }
+          )
+            // axios
+            // ({
+            //   method: 'post',
+            //   url: '/api/setFlag',
+            //   headers: {
+            //     'Authorization': 'Basic '+localStorage.getItem('auth'),
+            //     'Content-Type': 'application/json'
+            //   },
+            //   data: body
+            // })
+          );
         }
       }
     }
   }
   console.log("Approve Rule = "+approveRule+", Reject rule = "+ rejectRule);
-  // axios.all(promises).then(function(results) {
+  axios.all(promises).then(function(results) {
     if(approveRule && rejectRule){
       console.log("approve and rej entered if cond");
       body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
@@ -238,7 +248,13 @@ submit(len){
       })
     }
 
-  // });
+  }).catch(error => {
+    console.log(error);
+    document.getElementById("loaderBackground").style.visibility = "hidden";
+    toast.error("Error occurred axios all!",{
+      autoClose: false
+      });
+  });
   if(promises.length === 0)
     document.getElementById("loaderBackground").style.visibility = "hidden";
 }
