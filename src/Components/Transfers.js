@@ -168,10 +168,9 @@ submit(len){
               	headers: {
                   'Authorization': 'Basic '+localStorage.getItem('auth'),
                   'Content-Type': 'application/json'
-                }
-            },
-            {
-              data: body
+                },
+                data: {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
+                'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
             }
           )
             // axios
