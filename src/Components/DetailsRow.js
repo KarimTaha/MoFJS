@@ -1,5 +1,6 @@
 import React from 'react';
 import {numFormat} from '../js/utils'
+import {getAccountName} from '../js/smartlists'
 
 function DetailsRow(props){
 
@@ -37,7 +38,7 @@ function DetailsRow(props){
             {/* Row number */}
 						<td>{props.id+1}</td>
             {/* Account, SelectAccountMoPW for PFT, SelectAccountOMs for PFT1 */}
-            {type==="NFT"?<td>{SelectionAccount}</td>:null}
+            {type==="NFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
             {type==="AFT"?<td>{SelectionAccount}</td>:null}
             {type==="MFT"?<td>{SelectionAccount}</td>:null}
             {type==="PFT"?<td>{SelectAccountMoPW}</td>:null}
