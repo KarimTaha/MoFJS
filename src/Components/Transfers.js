@@ -179,9 +179,6 @@ submit(len){
   }
   console.log("Approve Rule = "+approveRule+", Reject rule = "+ rejectRule);
   axios.all(promises).then(function(results) {
-    for(var i = 0; i<results.length; i++){
-      console.log(results[i]);
-    }
     if(approveRule && rejectRule){
       console.log("approve and rej entered if cond");
       body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
@@ -223,8 +220,6 @@ submit(len){
     	},
     		data: body
     	}).then((response)=> {
-        console.log("Approve only: "+Date.now()/1000);
-        console.log(response);
         window.location.reload();
       })
     }
@@ -239,8 +234,6 @@ submit(len){
       },
         data: body
       }).then((response)=> {
-        console.log("Reject only: "+Date.now()/1000);
-        console.log(response);
         window.location.reload();
       })
     }
