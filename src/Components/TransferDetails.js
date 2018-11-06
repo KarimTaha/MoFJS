@@ -155,7 +155,7 @@ if(data.rows){
 					</thead>
 					<tbody>
 						{/* Map each line to a DetailsRow component */}
-						{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} type={this.state.type} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
+						{data.rows.length>0 ? data.rows.map((row,i) => <DetailsRow data={row} type={this.state.type} entity={this.state.entity} key={i} id={i}></DetailsRow>) : <p>No Data</p>}
 						{/* Show the sum of source and destination columns */}
 						<tr className="sumRow">
 							<td>الإجمالي</td>

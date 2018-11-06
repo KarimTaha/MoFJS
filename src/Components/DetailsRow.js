@@ -9,6 +9,7 @@ function DetailsRow(props){
 
   let row = props.data;
   let type = props.type;
+  let entity = props.entity;
   if (row){
     // Returned columns
     // Account
@@ -49,12 +50,12 @@ function DetailsRow(props){
             {type==="PFT1"?<td>{getAccountName(SelectAccountOMs)}</td>:null}
             {type==="MPFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
             {/* Activity, SelectionActivityMxx for NFT, SelectActivityM05, 06 for PFT1 */}
-            {type==="NFT"?<td>{getActivityName('17'+entityNum+SelectionActivityMxx)}</td>:null}
-            {type==="AFT"?<td>{getActivityName('17'+entityNum+SelectionActivityMxx)}</td>:null}
-            {type==="MFT"?<td>{getActivityName('17'+SelectionActivityMxx)}</td>:null}
-            {type==="PFT"?<td>{getActivityName('17'+entityNum+SelectActivityMopw)}</td>:null}
-            {type==="PFT1"?<td>{getActivityName('17'+entityNum+SelectActivityM05)}</td>:null}
-            {type==="MPFT"?<td>{getActivityName('17'+SelectionActivityMxx)}</td>:null}
+            {type==="NFT"?<td>{getActivityName(entity,SelectionActivityMxx)}</td>:null}
+            {type==="AFT"?<td>{getActivityName(entity,SelectionActivityMxx)}</td>:null}
+            {type==="MFT"?<td>{getActivityName(entity,SelectionActivityMxx)}</td>:null}
+            {type==="PFT"?<td>{getActivityName(entity,SelectActivityMopw)}</td>:null}
+            {type==="PFT1"?<td>{getActivityName(entity,SelectActivityM05)}</td>:null}
+            {type==="MPFT"?<td>{getActivityName(entity,SelectionActivityMxx)}</td>:null}
             {/* Location */}
             {type==="NFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
             {type==="AFT"?<td>{getLocationName(SelectionLocation)}</td>:null}

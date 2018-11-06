@@ -1,4 +1,9 @@
-export function getActivityName(id){
+export function getActivityName(entity, id){
+  id += "";
+  if(id.length == 0){
+    return "";
+  }
+  id = '17'+entity.substring(1,3)+id.substring(1,id.length);
   switch(id) {
     case "179304010001":
     return "179304010001: إعداد الميزانية ومتابعة تنفيذها"
