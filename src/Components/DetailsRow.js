@@ -3,6 +3,7 @@ import {numFormat} from '../js/utils'
 import {getAccountName} from '../js/accounts'
 import {getLocationName} from '../js/locations'
 import {getProjectName} from '../js/projects'
+import {getActivityName} from '../js/activities'
 
 function DetailsRow(props){
 
@@ -30,6 +31,7 @@ function DetailsRow(props){
     // Source or target entity
     var SourceEntity = row.data[13];
     var TargetEntity = row.data[14];
+    var entityNum = SourceEntity.substring(1,3);
     // Amount source and target
     var Source = row.data[15];
     var Destination = row.data[16];
@@ -47,12 +49,12 @@ function DetailsRow(props){
             {type==="PFT1"?<td>{getAccountName(SelectAccountOMs)}</td>:null}
             {type==="MPFT"?<td>{getAccountName(SelectionAccount)}</td>:null}
             {/* Activity, SelectionActivityMxx for NFT, SelectActivityM05, 06 for PFT1 */}
-            {type==="NFT"?<td>{SelectionActivityMxx}</td>:null}
-            {type==="AFT"?<td>{SelectionActivityMxx}</td>:null}
-            {type==="MFT"?<td>{SelectionActivityMxx}</td>:null}
-            {type==="PFT"?<td>{SelectActivityMopw}</td>:null}
-            {type==="PFT1"?<td>{SelectActivityM05}</td>:null}
-            {type==="MPFT"?<td>{SelectionActivityMxx}</td>:null}
+            {type==="NFT"?<td>{getActivityName('17'+entityNum+SelectionActivityMxx)}</td>:null}
+            {type==="AFT"?<td>{getActivityName('17'+entityNum+SelectionActivityMxx)}</td>:null}
+            {type==="MFT"?<td>{getActivityName('17'+SelectionActivityMxx)}</td>:null}
+            {type==="PFT"?<td>{getActivityName('17'+entityNum+SelectActivityMopw)}</td>:null}
+            {type==="PFT1"?<td>{getActivityName('17'+entityNum+SelectActivityM05)}</td>:null}
+            {type==="MPFT"?<td>{getActivityName('17'+SelectionActivityMxx)}</td>:null}
             {/* Location */}
             {type==="NFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
             {type==="AFT"?<td>{getLocationName(SelectionLocation)}</td>:null}
@@ -64,7 +66,7 @@ function DetailsRow(props){
             {type==="PFT" || type==="MPFT"?<td>{getProjectName(SelectProjectMoPW)}</td>:null}
             {type==="PFT1"?<td>{getProjectName(SelectProjectOMs)}</td>:null}
             {/* Source or target entity */}
-            {type==="MFT" || type==="MPFT"?<td>{SourceEntity}</td>:null}
+            {type==="MFT" || type==="MPFT"?<td>{TargetEntity}</td>:null}
             {/* Source amount */}
             {type==="AFT"?null:<td>{numFormat(Source)}</td>}
             {/* Target Amount */}
