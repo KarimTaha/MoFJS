@@ -177,10 +177,9 @@ async submit(len){
     }
   }
 
-  if(approveRule && rejectRule){
-    console.log("approve and rej entered if cond");
-    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-    axios({
+  if(approveRule){
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+    await axios({
       method: 'post',
       url: '/api/runRule',
       headers: {
@@ -188,34 +187,17 @@ async submit(len){
         'Content-Type': 'text/plain'
       },
       data: body
-    }).then((response)=> {
-      console.log("Approve in both: "+Date.now()/1000);
-      console.log(response);
-      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-      axios({
-        method: 'post',
-        url: '/api/runRule',
-        headers: {
-          'Authorization': 'Basic '+localStorage.getItem('auth'),
-          'Content-Type': 'text/plain'
-        },
-        data: body
-      }).then((response)=> {
-        console.log(response);
-        console.log("reject in both: "+Date.now()/1000);
-        // window.location.reload();
-      })
     }).catch(error => {
-      console.log(error);
+      console.log("Error after approve rule");
       document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error occurred 2!",{
+      toast.error("Error after approve rule",{
         autoClose: false
-      });
+        });
     });
   }
-  else if(approveRule){
-    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-    axios({
+  if(rejectRule){
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
+    await axios({
       method: 'post',
       url: '/api/runRule',
       headers: {
@@ -223,26 +205,16 @@ async submit(len){
         'Content-Type': 'text/plain'
       },
       data: body
-    }).then((response)=> {
-      window.location.reload();
-    })
-  }
-  else if(rejectRule){
-    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-    axios({
-      method: 'post',
-      url: '/api/runRule',
-      headers: {
-        'Authorization': 'Basic '+localStorage.getItem('auth'),
-        'Content-Type': 'text/plain'
-      },
-      data: body
-    }).then((response)=> {
-      window.location.reload();
-    })
+    }).catch(error => {
+      console.log("Error after approve rule");
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+      toast.error("Error after approve rule",{
+        autoClose: false
+        });
+    });
   }
   document.getElementById("loaderBackground").style.visibility = "hidden";
-  // window.location.reload();
+  window.location.reload();
 }
 
 
