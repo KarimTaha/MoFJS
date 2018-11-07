@@ -1,9 +1,19 @@
-export function getActivityName(entity, id){
+export function getActivityName(entity, type, id){
   id += "";
   if(id.length == 0){
     return "";
   }
-  id = '17'+entity.substring(1,3)+id.substring(1,id.length);
+  if(type === "MFT" || type === "MPFT" || type === "PFT"){
+    if(entity.substring(1,3) < 10){
+      id = '17'+entity.substring(1,3)+id.substring(1,id.length);
+    }
+    else{
+      id = '17'+entity.substring(1,3)+'0'+id.substring(2,id.length);
+    }
+  }
+  else{
+    id = '17'+entity.substring(1,3)+id.substring(1,id.length);
+  }
   switch(id) {
     case "171201010001":
     return "171201010001: اعداد الميزانية العامة للاتحاد وتطوير آليات إعدادها وفقا لتنبؤات ا"
@@ -345,7 +355,7 @@ export function getActivityName(entity, id){
     return "171206030003: عقد شراكات في مجال الابتكار مع المؤسسات الأكاديمية/ المنظمات الدول"
     case "171206030000":
     return "171206030000: تـهيئة بيئة داعمة ومحفزة للابتكار"
-    
+
 
 
     default:
