@@ -203,7 +203,7 @@ async submit(len){
       }).then((response)=> {
         console.log(response);
         console.log("reject in both: "+Date.now()/1000);
-        window.location.reload();
+        // window.location.reload();
       })
     }).catch(error => {
       console.log(error);
@@ -242,7 +242,7 @@ async submit(len){
     })
   }
   document.getElementById("loaderBackground").style.visibility = "hidden";
-  window.location.reload();
+  // window.location.reload();
 }
 
 
