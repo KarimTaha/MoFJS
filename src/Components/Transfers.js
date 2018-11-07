@@ -182,6 +182,7 @@ async submit(len){
     await axios({
       method: 'post',
       url: '/api/runRule',
+      timeout: 2000,
       headers: {
         'Authorization': 'Basic '+localStorage.getItem('auth'),
         'Content-Type': 'text/plain'
@@ -196,6 +197,7 @@ async submit(len){
     await axios({
       method: 'post',
       url: '/api/runRule',
+      timeout: 2000,
       headers: {
         'Authorization': 'Basic '+localStorage.getItem('auth'),
         'Content-Type': 'text/plain'
