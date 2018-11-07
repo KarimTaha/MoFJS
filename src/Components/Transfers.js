@@ -177,9 +177,10 @@ async submit(len){
     }
   }
 
-  if(approveRule){
+  if(approveRule && rejectRule){
+    console.log("approve and rej entered if cond");
     body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-    await axios({
+    axios({
       method: 'post',
       url: '/api/runRule',
       headers: {
@@ -187,11 +188,48 @@ async submit(len){
         'Content-Type': 'text/plain'
       },
       data: body
+    }).then((response)=> {
+      console.log("Approve in both: "+Date.now()/1000);
+      console.log(response);
+      body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
+      axios({
+        method: 'post',
+        url: '/api/runRule',
+        headers: {
+          'Authorization': 'Basic '+localStorage.getItem('auth'),
+          'Content-Type': 'text/plain'
+        },
+        data: body
+      }).then((response)=> {
+        console.log(response);
+        console.log("reject in both: "+Date.now()/1000);
+        window.location.reload();
+      })
+    }).catch(error => {
+      console.log(error);
+      document.getElementById("loaderBackground").style.visibility = "hidden";
+      toast.error("Error occurred 2!",{
+        autoClose: false
+      });
+    });
+  }
+  else if(approveRule){
+    body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+    axios({
+      method: 'post',
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
+      },
+      data: body
+    }).then((response)=> {
+      window.location.reload();
     })
   }
-  if(rejectRule){
+  else if(rejectRule){
     body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-    await axios({
+    axios({
       method: 'post',
       url: '/api/runRule',
       headers: {
@@ -199,6 +237,8 @@ async submit(len){
         'Content-Type': 'text/plain'
       },
       data: body
+    }).then((response)=> {
+      window.location.reload();
     })
   }
   document.getElementById("loaderBackground").style.visibility = "hidden";
