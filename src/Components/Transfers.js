@@ -189,10 +189,6 @@ async submit(len){
       data: body
     }).catch(error => {
       console.log("Error after approve rule");
-      document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error after approve rule",{
-        autoClose: false
-        });
     });
   }
   if(rejectRule){
@@ -207,10 +203,6 @@ async submit(len){
       data: body
     }).catch(error => {
       console.log("Error after approve rule");
-      document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error after approve rule",{
-        autoClose: false
-        });
     });
   }
   document.getElementById("loaderBackground").style.visibility = "hidden";
