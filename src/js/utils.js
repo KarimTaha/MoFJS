@@ -231,6 +231,9 @@ export function getEntityName(name){
 
 export function numFormat(number){
   number += "";
+  if(number.includes(".")){
+    return numFormat(number.substring(0,number.indexOf("."))) + "." + number.substring(number.indexOf(".")+1,number.length);
+  }
   if(number.length <4){
     return number;
   }

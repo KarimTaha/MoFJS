@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Row from './Row.js';
+import Row_FMIS from './Row_FMIS.js';
 import axios from 'axios';
 import '../css/app.css'
 import {getStageName, getFormName, getStageNameEN} from '../js/utils'
@@ -12,7 +12,7 @@ var dateAsc = true;
 var amountAsc = true;
 var numAsc = false;
 
-class Transfers extends Component{
+class ApproveToFMIS extends Component{
 
   constructor(props){
     super(props);
@@ -36,7 +36,7 @@ class Transfers extends Component{
     let entity = e.target.getAttribute("entity");
     let transfer = e.target.getAttribute("transfer");
     let segment = e.target.getAttribute("segment");
-    let version = getStageNameEN(localStorage.getItem('stageNumber'));
+    let version = 8;
     let id = e.target.getAttribute("id");
     //Text inside the comment that is displayed
     var text = document.getElementById("Text-"+id).textContent;
@@ -71,19 +71,7 @@ class Transfers extends Component{
     console.log(text);
     //Hide the comment box
     document.getElementById("commentBox").style.visibility = "hidden";
-    //Sent request to Python app to post the comment to Hyperion
-    //Params required: auth base64, url, entity, transfer, segment, version, text
-    // axios.post(serverUrl+'/postComment', {text},
-    // {
-    //   headers: {
-    //     'auth': localStorage.getItem('auth'),
-    //     'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
-    //     'entity': entity,
-    //     'transfer': transfer,
-    //     'segment': segment,
-    //     'version': version
-    //   }
-    // })
+
     var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
     'Department NSP', version, 'Line Item NSP', transfer, segment],'columns': [['Remarks']],'rows': [{'row': [entity],'data': [text]}]};
 
@@ -96,11 +84,8 @@ class Transfers extends Component{
   	},
   		data: body
   	}).then((response) => {
-      // console.log("Number of accepted cells: "+response.data.numAcceptedCells);
-      // console.log("Number of rejected cells: "+response.data.numRejectedCells);
       console.log(response)
-      //Call componentDidMount to re render page with modified comments
-      // this.componentDidMount();
+
       window.location.reload();
     })
 
@@ -116,10 +101,7 @@ async submit(len){
   //Set loader to be visible
   document.getElementById("loaderBackground").style.visibility = "visible";
   var radios;
-  var promises = [];
-  var that = this;
   var approveRule = false;
-  var rejectRule = false;
   //Loop on transfers available in page
   for (var i = 0; i<len; i++){
     //get the four radio buttons for this transfer
@@ -127,49 +109,32 @@ async submit(len){
     for (var j = 0; j < radios.length; j++){
       //Loop on each radio button
       var curr = radios[j];
-      if (curr.checked){
+      if (curr.checked && curr.value === "Yes"){
         var entity = curr.getAttribute('entity');
         var transfer = curr.getAttribute('transfer');
         var segment = curr.getAttribute('segment');
         var vNum = curr.getAttribute('vnum');
-        var flag = 0;
-        // do whatever you want with the checked radio according to value
-        if(curr.value === "Yes"){
-          flag = 2;
-          approveRule = true;
-          console.log("approveRule set");
-        }
-        if(curr.value === "Up"){
-          flag = 1;
-          approveRule = true;
-          console.log("approveRule set");
-        }
-        if(curr.value === "No"){
-          flag = 3;
-          rejectRule = true;
-          console.log("rejectRule set");
-        }
-        if(flag != 0){
-          console.log("set flag: "+ Date.now()/1000);
+        var flag = 2;
+        approveRule = true;
 
-          var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-          'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
+        var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
+        'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
-          await axios.post('/api/setFlag', body,
-            {
-              	headers: {
-                  'Authorization': 'Basic '+localStorage.getItem('auth'),
-                  'Content-Type': 'application/json'
-                }
-            }
-          );
-        }
+        await axios.post('/api/setFlag', body,
+          {
+            	headers: {
+                'Authorization': 'Basic '+localStorage.getItem('auth'),
+                'Content-Type': 'application/json'
+              }
+          }
+        );
+
       }
     }
   }
 
   if(approveRule){
-    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_8_Approve';
     await axios({
       method: 'post',
       url: '/api/runRule',
@@ -181,21 +146,6 @@ async submit(len){
       data: body
     }).catch(error => {
       console.log("Timeout after approve rule");
-    });
-  }
-  if(rejectRule){
-    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-    await axios({
-      method: 'post',
-      url: '/api/runRule',
-      timeout: 2000,
-      headers: {
-        'Authorization': 'Basic '+localStorage.getItem('auth'),
-        'Content-Type': 'text/plain'
-      },
-      data: body
-    }).catch(error => {
-      console.log("Timeout after reject rule");
     });
   }
   document.getElementById("loaderBackground").style.visibility = "hidden";
@@ -282,11 +232,9 @@ async submit(len){
     if(localStorage.getItem('loggedIn')){
       //Set loader to visible while the data is loaded
       document.getElementById("loaderBackground").style.visibility = "visible";
-      //Get required form name using logged in user's stage number
-      var formName = getFormName(localStorage.getItem('stageNumber'));
       //Send GET request to Python app to retrieve data in form
       // axios.get(serverUrl+'/getData',
-      axios.get('/api/forms/'+formName,
+      axios.get('/api/forms/Transfers_Stage_8',
       {
         headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
         // headers: {'auth': localStorage.getItem('auth'),
@@ -321,37 +269,41 @@ async submit(len){
   render(){
     //If the user is not logged in, redirect to login page
     if(!localStorage.getItem('loggedIn')){
-    this.props.history.push('/login');
-  }
-  var data = this.state.data;
-  //Check if data is loaded first
-  if (data.rows){
-  return(
-    <div className="container-fluid">
-      {/* Comment entry box */}
-      <div id="commentBox" dir="rtl">
-        <div id="commentTitle">التعليقات</div>
-        <div id="commentIdentifier">M09, NFT001, TS01</div>
-        <textarea name="commentBody" id="commentBody"/>
-        <br/>
-        <input type="button" className="commentButton" value="إلغاء" onClick={this.hideCommentBox}/>
-        <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="إرسال" onClick={this.postComment}/>
-      </div>
-      {/* The gold bar that has stage name */}
-      <div className="transferdiv row">
-        <div className="col">
-          <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
+      this.props.history.push('/login');
+    }
+    if(localStorage.getItem('stageNumber')!=="3"){
+      this.props.history.push('/');
+    }
+    var data = this.state.data;
+    //Check if data is loaded first
+    if (data.rows){
+    return(
+      <div className="container-fluid">
+        {/* Comment entry box */}
+        <div id="commentBox" dir="rtl">
+          <div id="commentTitle">التعليقات</div>
+          <div id="commentIdentifier">M09, NFT001, TS01</div>
+          <textarea name="commentBody" id="commentBody"/>
+          <br/>
+          <input type="button" className="commentButton" value="إلغاء" onClick={this.hideCommentBox}/>
+          <input type="button" id="submitComment" className="commentButton" data-entity="" data-transfer="" data-segment="" data-version="" value="إرسال" onClick={this.postComment}/>
         </div>
-      </div>
-      {/* Link to the approved transfers (stage 9) page */}
-      <div id="approvedLink" className="row">
-        <Link to={{pathname: '/Approved'}}>
-          <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المناقلات المعتمدة</p>
-        </Link>
-        {localStorage.getItem('stageNumber')==="3"?<Link to={{pathname: '/ApproveToFMIS'}}>
-          <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>FMIS</p>
-        </Link>:null}
-      </div>
+        {/* The gold bar that has stage name */}
+        <div className="transferdiv transferlbl row">
+          <div className="backLabel col-3">
+            <Link to={{
+              pathname: '/'
+            }}>
+            <div className="backLabel">
+              <span className="glyphicon glyphicon-arrow-left"></span>
+              <label className="back">رجوع</label>
+            </div>
+            </Link>
+          </div>
+          <div className="col">
+            <label className="transferlbl">{getStageName(8)}</label>
+          </div>
+        </div>
       {/* Data retrieved from form - saved in state - to be displayed in a table */}
       <div className="body" dir="rtl">
         <div className="row">
@@ -368,14 +320,12 @@ async submit(len){
                   <th className="bigCol">ملاحظات</th>
                   <th>تفاصيل</th>
                   <th>إعتماد</th>
-                  {localStorage.getItem('stageNumber')==="7"?null:<th>ترقية</th>}
-                  <th>رفض</th>
                   <th id="lastColumn">بدون إجراء</th>
                 </tr>
               </thead>
               {/* Map each row in data.rows to a Row component */}
               <tbody>
-                {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
+                {data.rows.length>0 ? data.rows.map((row,i) => <Row_FMIS data={row} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row_FMIS>) : null}
               </tbody>
             </table>
           </div>
@@ -385,7 +335,7 @@ async submit(len){
       </div>
     </div>
 
-  );
+    );
 
   }
   else {
@@ -393,7 +343,7 @@ async submit(len){
       <div className="container-fluid">
         <div className="transferdiv row">
           <div className="col">
-            <label className="transferlbl">{getStageName(localStorage.getItem('stageNumber'))}</label>
+            <label className="transferlbl">{getStageName(8)}</label>
           </div>
         </div>
       </div>
@@ -417,4 +367,4 @@ function monthName(monthname) {
 }
 
 
-export default withRouter(Transfers);
+export default withRouter(ApproveToFMIS);

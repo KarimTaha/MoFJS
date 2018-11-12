@@ -46,15 +46,6 @@ componentDidMount(){
 	document.getElementById("loaderBackground").style.visibility = "visible";
 	//Send GET request to Python app to get Transfer details
 	console.log(this.state.entity +", "+this.state.transfer+", "+ this.state.segment+", "+this.state.version);
-	// axios.get(serverUrl+'/getDetails',
-	// {
-	// 	headers: {'auth': localStorage.getItem('auth'),
-	// 	'url': baseUrl + 'applications/' + appName + '/dataexport/plantypes/' + plan,
-	// 	'entity': this.state.entity,
-	// 	'transfer': this.state.transfer,
-	// 	'segment': this.state.segment,
-	// 	'version': getStageNameEN(this.state.version)
-	// }
 
 	var body = `mdxQuery=
 	Select {[Selection Account],[Select Account MoPW],[Select Account OMs],[Selection Activity ${this.state.entity}],
@@ -63,10 +54,6 @@ componentDidMount(){
 	[Source],[Destination],[Validation Message]} ON COLUMNS, Non Empty {[All Line Items].Children} ON ROWS FROM MOF_BT.MOF_BT
 	WHERE ([Period].[Annual Value],[FY17],[Fund Transfer],[${getStageNameEN(this.state.version)}],[Department NSP],[${this.state.entity}],
 	[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`
-
-	// axios.post('/api/getDetails',{query},
-	// {
-	// 	headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
 
 	axios({
 		method: 'post',
@@ -89,7 +76,7 @@ componentDidMount(){
 		//Hide the loader animation
 		document.getElementById("loaderBackground").style.visibility = "hidden";
 		}).catch(error => {
-			console.log(error)
+			console.log(error.response);
 	    document.getElementById("loaderBackground").style.visibility = "hidden";
 	    toast.error("Error occurred!",{
 	      autoClose: false
@@ -118,9 +105,7 @@ if(data.rows){
 			<div className="transferdiv transferlbl row">
 				{/* Link to go back */}
 				<div className="backLabel col-3">
-					<Link to={{
-						pathname: this.state.version==="9"?'/Approved':'/'
-					}}>
+					<Link to={{pathname: this.state.version==="9"?'/Approved':(this.state.version==="8"?'/ApproveToFMIS':'/')}}>
 					<div className="backLabel">
 						<span className="glyphicon glyphicon-arrow-left"></span>
 						<label className="back"> رجوع</label>
