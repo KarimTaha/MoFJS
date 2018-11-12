@@ -6,6 +6,7 @@ import Transfers from './Components/Transfers';
 import TransferDetails from './Components/TransferDetails';
 import Login from './Components/Login'
 import Approved from './Components/Approved';
+import ApproveToFMIS from './Components/ApproveToFMIS';
 
 import './App.css';
 
@@ -24,6 +25,7 @@ class App extends Component {
           <Route exact path="/" component={Transfers} />
           <Route exact path="/Login" component={Login}/>
           <Route exact path="/Approved" component={Approved}/>
+          <Route exact path="/ApproveToFMIS" component={ApproveToFMIS}/>
           {/* If no data is in state, just display loader */}
           <div className="loaderBackground" id="loaderBackground">
             <div className="loader" id="loader">
