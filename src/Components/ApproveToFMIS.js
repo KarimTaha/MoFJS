@@ -109,8 +109,7 @@ async submit(len){
     for (var j = 0; j < radios.length; j++){
       //Loop on each radio button
       var curr = radios[j];
-      console.log("curr");
-      console.log(curr);
+
       if (curr.checked && curr.value === "Yes"){
         var entity = curr.getAttribute('entity');
         var transfer = curr.getAttribute('transfer');
@@ -119,11 +118,8 @@ async submit(len){
         var flag = 2;
         approveRule = true;
 
-        console.log("Entered set flag condition, flag = "+flag);
-        console.log("ApproveRule = "+ approveRule);
-
         var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-        'Department NSP', getStageNameEN(vNum), 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
+        'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag8']],'rows': [{'row': [entity],'data': [flag]}]}
 
         await axios.post('/api/setFlag', body,
           {
@@ -138,20 +134,20 @@ async submit(len){
     }
   }
 
-  if(approveRule){
-    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_8_Approve';
-    await axios({
-      method: 'post',
-      url: '/api/runRule',
-      headers: {
-        'Authorization': 'Basic '+localStorage.getItem('auth'),
-        'Content-Type': 'text/plain'
-      },
-      data: body
-    }).catch(error => {
-      console.log("Timeout after approve rule");
-    });
-  }
+  // if(approveRule){
+  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_8_Approve';
+  //   await axios({
+  //     method: 'post',
+  //     url: '/api/runRule',
+  //     headers: {
+  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
+  //       'Content-Type': 'text/plain'
+  //     },
+  //     data: body
+  //   }).catch(error => {
+  //     console.log("Timeout after approve rule");
+  //   });
+  // }
   document.getElementById("loaderBackground").style.visibility = "hidden";
   window.location.reload();
 }
