@@ -153,7 +153,7 @@ async submit(len){
           console.log("set flag: "+ Date.now()/1000);
 
           var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-          'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag'+vNum]],'rows': [{'row': [entity],'data': [flag]}]}
+          'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
           await axios.post('/api/setFlag', body,
             {

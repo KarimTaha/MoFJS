@@ -119,7 +119,7 @@ async submit(len){
         approveRule = true;
 
         var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-        'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag8']],'rows': [{'row': [entity],'data': [flag]}]}
+        'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
 
         await axios.post('/api/setFlag', body,
           {
