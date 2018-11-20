@@ -134,20 +134,20 @@ async submit(len){
     }
   }
 
-  // if(approveRule){
-  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_8_Approve';
-  //   await axios({
-  //     method: 'post',
-  //     url: '/api/runRule',
-  //     headers: {
-  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
-  //       'Content-Type': 'text/plain'
-  //     },
-  //     data: body
-  //   }).catch(error => {
-  //     console.log("Timeout after approve rule");
-  //   });
-  // }
+  if(approveRule){
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_8_Approve';
+    await axios({
+      method: 'post',
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
+      },
+      data: body
+    }).catch(error => {
+      console.log("Timeout after approve rule");
+    });
+  }
   document.getElementById("loaderBackground").style.visibility = "hidden";
   window.location.reload();
 }
