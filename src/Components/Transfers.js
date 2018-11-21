@@ -347,7 +347,7 @@ async submit(len){
           <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المناقلات المعتمدة</p>
         </Link>
         {localStorage.getItem('stageNumber')==="3"?<Link to={{pathname: '/ApproveToFMIS'}}>
-          <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>FMIS</p>
+          <p><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"/>المرحلة الثامنة</p>
         </Link>:null}
       </div>
       {/* Data retrieved from form - saved in state - to be displayed in a table */}
