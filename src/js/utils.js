@@ -232,7 +232,7 @@ export function getEntityName(name){
 export function numFormat(number){
   number += "";
   if(number.includes(".")){
-    return numFormat(number.substring(0,number.indexOf("."))) + "." + number.substring(number.indexOf(".")+1,number.length);
+    return numFormat(number.substring(0,number.indexOf("."))) + "." + number.substring(number.indexOf(".")+1,number.indexOf(".")+2);
   }
   if(number.length <4){
     return number;
@@ -243,6 +243,7 @@ export function numFormat(number){
 }
 
 export function getStageNumber(username){
+  username = username.toLowerCase();
   switch(username){
     case "admin":
     return 5;
@@ -265,7 +266,7 @@ export function getStageNumber(username){
     case "yalkhoori":
     return 6;
     default:
-    return 3;
+    return null;
   }
 }
 

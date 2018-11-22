@@ -172,6 +172,7 @@ async submit(len){
     var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
     await axios({
       method: 'post',
+      timeout: 3000,
       url: '/api/runRule',
       headers: {
         'Authorization': 'Basic '+localStorage.getItem('auth'),
@@ -186,6 +187,7 @@ async submit(len){
     var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
     await axios({
       method: 'post',
+      timeout: 3000,
       url: '/api/runRule',
       headers: {
         'Authorization': 'Basic '+localStorage.getItem('auth'),
