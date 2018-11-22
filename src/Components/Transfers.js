@@ -153,7 +153,7 @@ async submit(len){
           console.log("set flag: "+ Date.now()/1000);
 
           var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
-          'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag']],'rows': [{'row': [entity],'data': [flag]}]}
+          'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag'+vNum]],'rows': [{'row': [entity],'data': [flag]}]}
 
           await axios.post('/api/setFlag', body,
             {
@@ -168,36 +168,36 @@ async submit(len){
     }
   }
 
-  if(approveRule){
-    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-    await axios({
-      method: 'post',
-      timeout: 3000,
-      url: '/api/runRule',
-      headers: {
-        'Authorization': 'Basic '+localStorage.getItem('auth'),
-        'Content-Type': 'text/plain'
-      },
-      data: body
-    }).catch(error => {
-      console.log("Timeout after approve rule");
-    });
-  }
-  if(rejectRule){
-    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-    await axios({
-      method: 'post',
-      timeout: 3000,
-      url: '/api/runRule',
-      headers: {
-        'Authorization': 'Basic '+localStorage.getItem('auth'),
-        'Content-Type': 'text/plain'
-      },
-      data: body
-    }).catch(error => {
-      console.log("Timeout after reject rule");
-    });
-  }
+  // if(approveRule){
+  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+  //   await axios({
+  //     method: 'post',
+  //     timeout: 3000,
+  //     url: '/api/runRule',
+  //     headers: {
+  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
+  //       'Content-Type': 'text/plain'
+  //     },
+  //     data: body
+  //   }).catch(error => {
+  //     console.log("Timeout after approve rule");
+  //   });
+  // }
+  // if(rejectRule){
+  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
+  //   await axios({
+  //     method: 'post',
+  //     timeout: 3000,
+  //     url: '/api/runRule',
+  //     headers: {
+  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
+  //       'Content-Type': 'text/plain'
+  //     },
+  //     data: body
+  //   }).catch(error => {
+  //     console.log("Timeout after reject rule");
+  //   });
+  // }
   document.getElementById("loaderBackground").style.visibility = "hidden";
   window.location.reload();
 }
