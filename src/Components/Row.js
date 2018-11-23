@@ -54,7 +54,7 @@ class Row extends Component{
             }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
           </td>
           <td>
-            <input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="Yes"} onChange={this.handleOptionChange} disabled={amount>200000} value="Yes"/>
+            <input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="Yes"} onChange={this.handleOptionChange} value="Yes"/>
           </td>
           {localStorage.getItem('stageNumber')==="7"?null:<td><input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="Up"} onChange={this.handleOptionChange} value="Up"/></td>}
           <td>
