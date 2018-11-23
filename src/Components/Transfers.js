@@ -168,36 +168,36 @@ async submit(len){
     }
   }
 
-  // if(approveRule){
-  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
-  //   await axios({
-  //     method: 'post',
-  //     timeout: 3000,
-  //     url: '/api/runRule',
-  //     headers: {
-  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
-  //       'Content-Type': 'text/plain'
-  //     },
-  //     data: body
-  //   }).catch(error => {
-  //     console.log("Timeout after approve rule");
-  //   });
-  // }
-  // if(rejectRule){
-  //   var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
-  //   await axios({
-  //     method: 'post',
-  //     timeout: 3000,
-  //     url: '/api/runRule',
-  //     headers: {
-  //       'Authorization': 'Basic '+localStorage.getItem('auth'),
-  //       'Content-Type': 'text/plain'
-  //     },
-  //     data: body
-  //   }).catch(error => {
-  //     console.log("Timeout after reject rule");
-  //   });
-  // }
+  if(approveRule){
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
+    await axios({
+      method: 'post',
+      timeout: 3000,
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
+      },
+      data: body
+    }).catch(error => {
+      console.log("Timeout after approve rule");
+    });
+  }
+  if(rejectRule){
+    var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
+    await axios({
+      method: 'post',
+      timeout: 3000,
+      url: '/api/runRule',
+      headers: {
+        'Authorization': 'Basic '+localStorage.getItem('auth'),
+        'Content-Type': 'text/plain'
+      },
+      data: body
+    }).catch(error => {
+      console.log("Timeout after reject rule");
+    });
+  }
   document.getElementById("loaderBackground").style.visibility = "hidden";
   window.location.reload();
 }
