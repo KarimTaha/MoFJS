@@ -32,6 +32,7 @@ class Row_FMIS extends Component{
       let date = row.data[1];
       let amount = row.data[0];
       let comments = row.data[2];
+      let validation = row.data[5];
       return(
         <tr>
           <td>{this.state.id+1}</td>
@@ -48,7 +49,8 @@ class Row_FMIS extends Component{
                 entity: entity,
                 transfer: transfer,
                 segment: segment,
-                version: versionNum
+                version: versionNum,
+                validation : validation
               }
             }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
           </td>
