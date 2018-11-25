@@ -219,6 +219,9 @@ th, td {
 .bigCol{
   min-width: 110px;
 }
+.validCol{
+  max-width: 450px;
+}
 #lastColumn{
   max-width: 48px;
 }

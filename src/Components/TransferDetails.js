@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import {numFormat, getStageName, getStageNameEN, getTransferName, getSegmentName, getEntityName, transferType,getTransferTypeArabic} from '../js/utils'
+import {getValidationMessage} from '../js/Validation'
 
 import DetailsRow from './DetailsRow.js'
 
@@ -24,6 +25,7 @@ class TransferDetails extends React.Component{
 			transfer : props.location.state.transfer,
 			segment : props.location.state.segment,
 			version : props.location.state.version,
+			validation : props.location.state.validation,
 			type: ""
 		}
 	}
@@ -135,7 +137,7 @@ if(data.rows){
 							{this.state.type==="MFT" || this.state.type==="MPFT"?<th>الجهة</th>:null}
 							{this.state.type==="AFT"?null:<th>المنقول منه</th>}
 							<th>المنقول إليه</th>
-							<th>رسالة التحقق</th>
+							<th className="validCol">رسالة التحقق</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -152,7 +154,7 @@ if(data.rows){
 							{/* numFormat function is used to show number with comma separators */}
 							{this.state.type==="AFT"?null:<td>{numFormat(this.sum("from"))}</td>}
 							<td>{numFormat(this.sum("to"))}</td>
-							<td></td>
+							<td>{getValidationMessage(this.state.validation)}</td>
 						</tr>
 					</tbody>
 				</table>
