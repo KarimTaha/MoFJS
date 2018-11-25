@@ -4,6 +4,7 @@ import {getAccountName} from '../js/accounts'
 import {getLocationName} from '../js/locations'
 import {getProjectName} from '../js/projects'
 import {getActivityName} from '../js/activities'
+import {getValidationMessage} from '../js/Validation'
 
 function DetailsRow(props){
 
@@ -73,7 +74,7 @@ function DetailsRow(props){
             {/* Target Amount */}
             <td>{numFormat(Destination)}</td>
             {/* Validation Message */}
-            <td>{ValidationMessage}</td>
+            <td>{getValidationMessage(ValidationMessage)}</td>
           </tr>
       );
   }
