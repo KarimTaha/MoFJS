@@ -74,7 +74,7 @@ function DetailsRow(props){
             {/* Target Amount */}
             <td>{numFormat(Destination)}</td>
             {/* Validation Message */}
-            <td>{getValidationMessage(ValidationMessage)}</td>
+            <td className="validCol">{getValidationMessage(ValidationMessage)}</td>
           </tr>
       );
   }
