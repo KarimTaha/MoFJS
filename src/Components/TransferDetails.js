@@ -154,7 +154,7 @@ if(data.rows){
 							{/* numFormat function is used to show number with comma separators */}
 							{this.state.type==="AFT"?null:<td>{numFormat(this.sum("from"))}</td>}
 							<td>{numFormat(this.sum("to"))}</td>
-							<td>{getValidationMessage(this.state.validation)}</td>
+							<td className="validCol">{getValidationMessage(this.state.validation)}</td>
 						</tr>
 					</tbody>
 				</table>
