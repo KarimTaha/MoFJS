@@ -7,12 +7,6 @@ import {getValidationMessage} from '../js/Validation'
 
 import DetailsRow from './DetailsRow.js'
 
-var baseUrl = 'http://94.200.95.142:3285/HyperionPlanning/rest/11.1.2.4/';
-var appName = 'MOF_BT';
-var plan = 'MOF_BT';
-var serverUrl = 'http://142.93.22.27:5000';
-var testUrl = 'http://127.0.0.1:5000';
-
 class TransferDetails extends React.Component{
 
 	constructor(props){
@@ -26,6 +20,7 @@ class TransferDetails extends React.Component{
 			segment : props.location.state.segment,
 			version : props.location.state.version,
 			validation : props.location.state.validation,
+			year: props.location.state.year,
 			type: ""
 		}
 	}
@@ -46,7 +41,7 @@ componentDidMount(){
 	if(localStorage.getItem('loggedIn') && this.state!=null){
 	//Set the loader animation to be visible
 	document.getElementById("loaderBackground").style.visibility = "visible";
-	//Send GET request to Python app to get Transfer details
+	//Send GET request to get Transfer details
 	console.log(this.state.entity +", "+this.state.transfer+", "+ this.state.segment+", "+this.state.version);
 
 	var body = `mdxQuery=
@@ -54,7 +49,7 @@ componentDidMount(){
 	[Select Activity M05],[Select Activity M06],[Select Activity MoPW],[Selection Location],[Select Location M05],
 	[Select Location M06],[Select Location MoPW],[Select Project OMs],[Select Project MoPW],[Source Entity],[Target Entity],
 	[Source],[Destination],[Validation Message]} ON COLUMNS, Non Empty {[All Line Items].Children} ON ROWS FROM MOF_BT.MOF_BT
-	WHERE ([Period].[Annual Value],[FY17],[Fund Transfer],[${getStageNameEN(this.state.version)}],[Department NSP],[${this.state.entity}],
+	WHERE ([Period].[Annual Value],[${this.state.year}],[Fund Transfer],[${getStageNameEN(this.state.version)}],[Department NSP],[${this.state.entity}],
 	[Input View],[Activity NSP],[Location NSP],[Project NSP],[Account NSP],[${this.state.transfer}],[${this.state.segment}])`
 
 	axios({

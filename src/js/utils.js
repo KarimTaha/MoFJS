@@ -249,6 +249,10 @@ export function getStageNumber(username){
     return 5;
     case "karim.taha":
     return 4;
+    case "karimtaha":
+    return 3;
+    case "mohammadyasser":
+    return 4;
     case "mohamed.nasser":
     return 4;
     case "aaelshamy":

@@ -13,13 +13,6 @@ import '../css/app.css'
 import {getStageName, getEntityName} from '../js/utils'
 import ApprovedRow from './ApprovedRow';
 
-//Dubai server Hyperion url
-var baseUrl = 'http://94.200.95.142:3290/HyperionPlanning/rest/11.1.2.4/';
-var appName = 'MOF_BT';
-//Server that has Python app deployed
-var serverUrl = 'http://142.93.22.27:5000';
-//Localhost Python server
-var testUrl = 'http://127.0.0.1:5000';
 // variables to keep track of last sorting order, changed with each sort
 var dateAsc = true;
 var entityAsc = true;
@@ -44,7 +37,6 @@ class Approved extends Component{
     // Bind functions
     this.sortByDate = this.sortByDate.bind(this);
     this.sortByAmount = this.sortByAmount.bind(this);
-    this.sortByEntity = this.sortByEntity.bind(this);
     this.sortByNumber = this.sortByNumber.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.cancelFilters = this.cancelFilters.bind(this);
@@ -124,27 +116,6 @@ sortByAmount(){
   this.setState({filteredRows:rows});
 }
 
-// Sort rows by Entity name
-sortByEntity(){
-  // var rows = this.state.filteredRows;
-  // // Sort using a custom function, compare rows a, b
-  // rows.sort(function (a,b) {
-  //   // Check if last sort was ascending or descending
-  //   // console.log(a.row[0].substring(1,3)+", "+b.row[0].substring(1,3));
-  //   // console.log(a.row[0].substring(1,3)>b.row[0].substring(1,3)?a.row[0].substring(1,3)+" is bigger":b.row[0].substring(1,3)+" is bigger")
-  //   if(entityAsc)
-  //     // compare ascii characters a comes before b
-  //     return a.row[0] >= b.row[0];
-  //   else
-  //     // compare ascii characters b comes before a
-  //     return a.row[0] < b.row[0];
-  // });
-  // console.log(rows);
-  // // switch sorting order for next time
-  // entityAsc = !entityAsc;
-  // // Set state for the data to be rerendered
-  // this.setState({filteredRows:rows});
-}
 
 applyFilters(){
   //Filter entities

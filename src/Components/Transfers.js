@@ -1,3 +1,7 @@
+// This is the home page when user is logged in
+// A request is sent to get the data from dataform according to user's stage
+// When data is received, it is mapped using map() function as Rows
+
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -71,19 +75,8 @@ class Transfers extends Component{
     console.log(text);
     //Hide the comment box
     document.getElementById("commentBox").style.visibility = "hidden";
-    //Sent request to Python app to post the comment to Hyperion
-    //Params required: auth base64, url, entity, transfer, segment, version, text
-    // axios.post(serverUrl+'/postComment', {text},
-    // {
-    //   headers: {
-    //     'auth': localStorage.getItem('auth'),
-    //     'url': baseUrl + 'applications/' + appName + '/dataimport/plantypes/MOF_BT/',
-    //     'entity': entity,
-    //     'transfer': transfer,
-    //     'segment': segment,
-    //     'version': version
-    //   }
-    // })
+
+    // forming the body of the request to be sent
     var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
     'Department NSP', version, 'Line Item NSP', transfer, segment],'columns': [['Remarks']],'rows': [{'row': [entity],'data': [text]}]};
 
@@ -96,11 +89,8 @@ class Transfers extends Component{
   	},
   		data: body
   	}).then((response) => {
-      // console.log("Number of accepted cells: "+response.data.numAcceptedCells);
-      // console.log("Number of rejected cells: "+response.data.numRejectedCells);
       console.log(response)
-      //Call componentDidMount to re render page with modified comments
-      // this.componentDidMount();
+      // After a comment is updated, refresh page to show it
       window.location.reload();
     })
 
@@ -108,7 +98,7 @@ class Transfers extends Component{
 
 // This function hides the comment window. Called when cancel is clicked
 hideCommentBox(){
-document.getElementById("commentBox").style.visibility = "hidden";
+  document.getElementById("commentBox").style.visibility = "hidden";
 }
 
 //Submit transfers' actions to Hyperion
@@ -149,12 +139,16 @@ async submit(len){
           rejectRule = true;
           console.log("rejectRule set");
         }
+        // Write flag to Hyperion if it is not equal to 0
         if(flag != 0){
           console.log("set flag: "+ Date.now()/1000);
 
+          // Request body to be sent
           var body = {'pov': ['Annual Value', '&CurrYear', 'Fund Transfer', 'Project NSP', 'Input View', 'Activity NSP', 'Account NSP', 'Location NSP',
           'Department NSP', 'Mobile', 'Line Item NSP', transfer, segment],'columns': [['Flag'+vNum]],'rows': [{'row': [entity],'data': [flag]}]}
 
+
+          // When setting flag for each transfer, use await to wait for the response before attempting to send next one
           await axios.post('/api/setFlag', body,
             {
               	headers: {
@@ -168,6 +162,7 @@ async submit(len){
     }
   }
 
+  // Run the approve rule for specific stage if any transfer is to be approved or promoted
   if(approveRule){
     var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Promote_Approve';
     await axios({
@@ -183,6 +178,7 @@ async submit(len){
       console.log("Timeout after approve rule");
     });
   }
+  // Run the reject rule for specific stage if any transfer is to be reject
   if(rejectRule){
     var body = 'jobType=RULES&jobName=MOF_BT_Remote_Stage_'+vNum+'_Reject';
     await axios({
@@ -198,6 +194,8 @@ async submit(len){
       console.log("Timeout after reject rule");
     });
   }
+
+  // Hide the loader animation and reload the page to show the updated data
   document.getElementById("loaderBackground").style.visibility = "hidden";
   window.location.reload();
 }
@@ -284,13 +282,10 @@ async submit(len){
       document.getElementById("loaderBackground").style.visibility = "visible";
       //Get required form name using logged in user's stage number
       var formName = getFormName(localStorage.getItem('stageNumber'));
-      //Send GET request to Python app to retrieve data in form
-      // axios.get(serverUrl+'/getData',
+      //Send GET request to retrieve data in form
       axios.get('/api/forms/'+formName,
       {
         headers: {'Authorization': 'Basic '+localStorage.getItem('auth')}
-        // headers: {'auth': localStorage.getItem('auth'),
-        // 'url': baseUrl + 'applications/MOF_BT/dataexport/' + formName
 
       }).then((response) => {
         console.log("Response:")
@@ -308,6 +303,7 @@ async submit(len){
         //Hide the loader after loading data is done
         document.getElementById("loaderBackground").style.visibility = "hidden";
       }).catch(error => {
+        // Error in request to retrieve data in form
         console.log(error);
         console.log("Error in Transfers")
         document.getElementById("loaderBackground").style.visibility = "hidden";
@@ -324,6 +320,7 @@ async submit(len){
     this.props.history.push('/login');
   }
   var data = this.state.data;
+  var year = data.pov[2];
   //Check if data is loaded first
   if (data.rows){
   return(
@@ -375,7 +372,7 @@ async submit(len){
               </thead>
               {/* Map each row in data.rows to a Row component */}
               <tbody>
-                {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
+                {data.rows.length>0 ? data.rows.map((row,i) => <Row data={row} year={year} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row>) : null}
               </tbody>
             </table>
           </div>
