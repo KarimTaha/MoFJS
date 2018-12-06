@@ -358,7 +358,7 @@ render(){
           </thead>
           <tbody>
             {/* Map the rows to be displayed as an ApprovedRow component each */}
-            {filteredRows.length>0 ? filteredRows.map((row,i) => <ApprovedRow data={row} key={i} id={i}></ApprovedRow>) : null}
+            {filteredRows.length>0 ? filteredRows.map((row,i) => <ApprovedRow data={row} year={year} key={i} id={i}></ApprovedRow>) : null}
           </tbody>
         </table>
       </div>

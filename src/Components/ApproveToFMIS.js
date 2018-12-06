@@ -327,7 +327,7 @@ async submit(len){
               </thead>
               {/* Map each row in data.rows to a Row component */}
               <tbody>
-                {data.rows.length>0 ? data.rows.map((row,i) => <Row_FMIS data={row} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row_FMIS>) : null}
+                {data.rows.length>0 ? data.rows.map((row,i) => <Row_FMIS data={row} year={year} key={row.num} id={i} showCommentBox={this.showCommentBox}></Row_FMIS>) : null}
               </tbody>
             </table>
           </div>
