@@ -278,6 +278,7 @@ async submit(len){
     var data = this.state.data;
     //Check if data is loaded first
     if (data.rows){
+    var year = data.pov[2];
     return(
       <div className="container-fluid">
         {/* Comment entry box */}

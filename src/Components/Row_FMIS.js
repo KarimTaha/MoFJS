@@ -10,7 +10,8 @@ class Row_FMIS extends Component{
     this.state= {
       data: props.data,
       id: props.id,
-      checked: "No-action"
+      checked: "No-action",
+      year: props.year
     }
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.showCommentBox = props.showCommentBox;
@@ -33,6 +34,7 @@ class Row_FMIS extends Component{
       let amount = row.data[0];
       let comments = row.data[2];
       let validation = row.data[5];
+      let year = this.state.year;
       return(
         <tr>
           <td>{this.state.id+1}</td>
@@ -50,7 +52,8 @@ class Row_FMIS extends Component{
                 transfer: transfer,
                 segment: segment,
                 version: versionNum,
-                validation : validation
+                validation : validation,
+                year: year
               }
             }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
           </td>

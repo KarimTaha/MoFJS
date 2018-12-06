@@ -13,6 +13,7 @@ function ApprovedRow(props){
     let date = row.data[1];
     let amount = row.data[0];
     let validation = row.data[3];
+    let year = props.year;
     return(
       <tr>
         <td>{num}</td>
@@ -29,7 +30,8 @@ function ApprovedRow(props){
               transfer: transfer,
               segment: segment,
               version: "9",
-              validation: validation
+              validation: validation,
+              year: year
             }
           }}><span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></Link>
         </td>

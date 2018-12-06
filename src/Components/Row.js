@@ -63,7 +63,7 @@ class Row extends Component{
           <td>
             <input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="Yes"} onChange={this.handleOptionChange} value="Yes"/>
           </td>
-          // Do not show promote column for stage 7 users
+          {/* Do not show promote column for stage 7 users */}
           {localStorage.getItem('stageNumber')==="7"?null:<td><input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="Up"} onChange={this.handleOptionChange} value="Up"/></td>}
           <td>
             <input type="radio" name={this.state.id} entity={entity} transfer={transfer} segment={segment} vnum={versionNum} checked={this.state.checked==="No"} onChange={this.handleOptionChange} value="No"/>

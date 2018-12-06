@@ -275,6 +275,7 @@ render(){
   var filteredRows = this.state.filteredRows;
   //Check if data is loaded first
   if (data.rows){
+  var year = data.pov[2];
   return(
     <div className="container-fluid">
       {/* The gold bar that has stage name */}
