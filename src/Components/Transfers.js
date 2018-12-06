@@ -320,9 +320,9 @@ async submit(len){
     this.props.history.push('/login');
   }
   var data = this.state.data;
-  var year = data.pov[2];
   //Check if data is loaded first
   if (data.rows){
+    var year = data.pov[2];
   return(
     <div className="container-fluid">
       {/* Comment entry box */}
