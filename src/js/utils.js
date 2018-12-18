@@ -247,13 +247,23 @@ export function getStageNumber(username){
   switch(username){
     case "admin":
     return 5;
+    case "whahmed":
+    return 3;
+    case "mobadmin3":
+    return 3;
+    case "mobadmin4":
+    return 4;
+    case "mobadmin5":
+    return 5;
+    case "mobadmin6":
+    return 6;
+    case "mobadmin7":
+    return 7;
     case "karim.taha":
     return 4;
     case "karimtaha":
     return 3;
     case "mohammadyasser":
-    return 4;
-    case "mohamed.nasser":
     return 4;
     case "aaelshamy":
     return 3;

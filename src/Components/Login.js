@@ -60,9 +60,16 @@ class Login extends React.Component{
       console.log(error.response)
       console.log("Error in login")
       document.getElementById("loaderBackground").style.visibility = "hidden";
-      toast.error("Error occurred!",{
-        autoClose: false
-        });
+      if(error.response.data.status === 401){
+        toast.error("Wrong username or password",{
+          autoClose: false
+          });
+      }
+      else{
+        toast.error("Error occurred during login, check network",{
+          autoClose: false
+          });
+      }
     });
 
 }
